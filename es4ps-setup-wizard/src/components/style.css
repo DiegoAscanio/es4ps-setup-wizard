@@ -1,0 +1,12 @@
+/* i want to style all label tags inside tags with class "form-group" 
+ * and i want them to be at least 20px distant from their input fields
+ * */
+
+.form-group {
+    margin-top: 10px;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-right: 20px;
+}
