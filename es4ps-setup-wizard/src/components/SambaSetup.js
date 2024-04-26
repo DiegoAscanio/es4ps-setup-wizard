@@ -26,9 +26,9 @@ const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
     }, [domain]);
 
     // state for the realm suffix of the samba server
-    const [realmSuffix, setRealmSuffix] = useState(domain + ".ES4PS.LOCAL");
+    const [realmSuffix, setRealmSuffix] = useState(".ES4PS.LOCAL");
     useEffect(() => {
-        const newConfig = { ...Config, realm: domain + "." + realmSuffix };
+        const newConfig = { ...Config, realmSuffix: "." + realmSuffix };
         ConfigUpdateHandler(newConfig);
     }, [realmSuffix]);
 
@@ -47,7 +47,7 @@ const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
         condition &= password1.match(/[A-Z]/) !== null;
         condition &= password1.match(/[a-z]/) !== null;
         condition &= password1 === password2;
-        return condition;
+        return Boolean(condition);
     };
     const [password1, setPassword1] = useState('');
     const [password2, setPassword2] = useState('');
@@ -55,9 +55,11 @@ const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
     useEffect(() => {
         const newConfig = {
             ...Config,
-            password: isPasswordValid(password1, password2) ? password1 : null,
-            validPassword: isPasswordValid(password1, password2),
+            adminPassword: isPasswordValid(password1, password2) ? password1 : null,
+            validAdminPassword: isPasswordValid(password1, password2),
         };
+        ConfigUpdateHandler(newConfig);
+        setValidPassword(isPasswordValid(password1, password2));
     }, [password1, password2]);
     return (
         <>
@@ -126,6 +128,7 @@ const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
                     className="form-control"
                     name="samba_password_1"
                     onChange={(e) => setPassword1(e.target.value)}
+                    placeholder="Passw0rd!"
                 />
             </div>
             <div className="form-group">
@@ -137,6 +140,7 @@ const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
                     className="form-control"
                     name="samba_password_2"
                     onChange={(e) => setPassword2(e.target.value)}
+                    placeholder="Passw0rd!"
                 />
                 {!validPassword && (
                     <ErrorMessage message="Password must have at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 special character and passwords must be equal." />

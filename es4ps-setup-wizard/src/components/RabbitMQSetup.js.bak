@@ -36,6 +36,13 @@ const RabbitMQSetup = ({ Config, ConfigUpdateHandler }) => {
         ConfigUpdateHandler(newConfig);
     }, [vhost]);
 
+    // define state to store the server address
+    const [serverAddress, setServerAddress] = useState(Config.serverAddress);
+    useEffect(() => {
+        const newConfig = { ...Config, serverAddress: serverAddress };
+        ConfigUpdateHandler(newConfig);
+    }, [serverAddress]);
+
     return (
         <>
             <h2>RabbitMQ Setup</h2>
@@ -51,10 +58,10 @@ const RabbitMQSetup = ({ Config, ConfigUpdateHandler }) => {
                 you need to have RabbitMQ installed and running.
             </p>
             <p>
-                For RabbitMQ you will need to configure a user, a virtual host
-                and a password. If you don't know what to put here, you can
-                input the suggested values (when available) assigned to the
-                input fields.
+                For RabbitMQ you will need to configure a user, a server
+                address, a virtual host and a password. If you don't know what
+                to put here, you can input the suggested values (when available)
+                assigned to the input fields.
             </p>
             <div className="form-group">
                 <label htmlFor="rabbitmq_user">RabbitMQ User</label>
@@ -64,6 +71,18 @@ const RabbitMQSetup = ({ Config, ConfigUpdateHandler }) => {
                     name="rabbitmq_user"
                     placeholder="admin"
                     onChange={(e) => setUsername(e.target.value)}
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="rabbitmq_server_address">
+                    RabbitMQ Server Address
+                </label>
+                <input
+                    type="text"
+                    className="form-control"
+                    name="rabbitmq_server_address"
+                    placeholder="localhost"
+                    onChange={(e) => setServerAddress(e.target.value)}
                 />
             </div>
             <div className="form-group">

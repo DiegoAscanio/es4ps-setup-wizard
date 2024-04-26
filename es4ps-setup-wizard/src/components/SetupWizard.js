@@ -45,8 +45,8 @@ const SetupWizard = () => {
     // defining state to store rabbit mq configuration dictionary
     const [ RabbitMQConfig, setRabbitMQConfig ] = useState({
         username: 'admin',
-        password: '',
         vhost: 'myvhost',
+        password: '',
         validPassword: false
     });
     // useEffect to react to changes in the RabbitMQConfig state
@@ -68,22 +68,50 @@ const SetupWizard = () => {
         console.log(SambaConfig);
     }, [SambaConfig]);
 
+    // defining state for the django configuration dictionary
+    const [ DjangoConfig, setDjangoConfig ] = useState({
+        superuserName: 'admin',
+        superuserPassword: '',
+        validSuperuserPassword: false,
+        allowedEmailDomains: ['@es4ps.local'],
+        smtpServer: 'smtp.example.com',
+        smtpPort: 587,
+        smtpUsername: 'smtpuser@example.com',
+        smtpPassword: '',
+        djangoFQDN: 'localhost:8000'
+    });
+    // useEffect to react to changes in the DjangoConfig state
+    useEffect(() => {
+        console.log(DjangoConfig);
+    }, [DjangoConfig]);
+
+    // defining state for the all-in-one configuration dictionary
+    const [ AllInOneConfig, setAllInOneConfig ] = useState({
+        RabbitMQ: RabbitMQConfig,
+        Samba: SambaConfig,
+        Django: DjangoConfig
+    });
+    // useEffect to react to changes in the AllInOneConfig state
+    useEffect(() => {
+        console.log(AllInOneConfig);
+    }, [AllInOneConfig]);
+
     // defining component configs map
     const componentConfigsMap = {
         '': null,
-        'all-in-one': null,
+        'all-in-one': AllInOneConfig,
         'rabbitmq': RabbitMQConfig,
         'samba': SambaConfig,
-        'django': null
+        'django': DjangoConfig
     };
 
     // defining component handlers map
     const componentHandlersMap = {
         '': null,
-        'all-in-one': null,
+        'all-in-one': setAllInOneConfig,
         'rabbitmq': setRabbitMQConfig,
         'samba': setSambaConfig,
-        'django': null
+        'django': setDjangoConfig
     };
 
     // defining the selected component to render based on the setup mode
