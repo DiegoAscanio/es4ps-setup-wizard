@@ -20,24 +20,28 @@ const InputField = ({
     </div>
 );
 
-const InputFieldGroup = ({ inputFieldsMap }) => (
-    <>
-    {Object.keys(inputFieldsMap).map((key) => (
-        <InputField
-            label={inputFieldsMap[key].label}
-            placeholder={inputFieldsMap[key].placeholder}
-            inputHandler={inputFieldsMap[key].inputHandler}
-            validFlag={inputFieldsMap[key].validFlag}
-            errorMessage={inputFieldsMap[key].errorMessage}
-            type={
-                inputFieldsMap[key].type
-                    ? inputFieldsMap[key].type
-                    : "text"
-            }
-        />
-    ))}
-    </>
-);
+const InputFieldGroup = ({ inputFieldsMap }) => {
+    return (
+        <>
+        {
+            Object.keys(inputFieldsMap).map((key) => (
+            <InputField
+                label={inputFieldsMap[key].label}
+                placeholder={inputFieldsMap[key].placeholder}
+                inputHandler={inputFieldsMap[key].inputHandler}
+                validFlag={inputFieldsMap[key].validFlag}
+                errorMessage={inputFieldsMap[key].errorMessage}
+                type={
+                    inputFieldsMap[key].type
+                        ? inputFieldsMap[key].type
+                        : "text"
+                }
+            />
+            ))
+        }
+        </>
+    )
+};
 
 const SelectMode = ({ onChange, selectedMode, selectModeMap }) => (
     <select value={selectedMode} onChange={ e => onChange(e.target.value)}>

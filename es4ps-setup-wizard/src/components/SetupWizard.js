@@ -58,7 +58,7 @@ const SetupWizard = () => {
             value: '',
             valid: false
         },
-        validSuperuserPassword: {
+        djangoFQDN: {
             value: '',
             valid: false
         },
@@ -82,18 +82,10 @@ const SetupWizard = () => {
             value: '',
             valid: false
         },
-        djangoFQDN: {
-            value: '',
-            valid: false
-        },
     });
-
-    // defining state for the all-in-one configuration dictionary
-    const [ AllInOneConfig, setAllInOneConfig ] = useState({
-        RabbitMQ: RabbitMQConfig,
-        Samba: SambaConfig,
-        Django: DjangoConfig
-    });
+    useEffect(() => {
+        console.log(DjangoConfig);
+    }, [DjangoConfig]);
 
     return (
         <div>
@@ -105,6 +97,10 @@ const SetupWizard = () => {
             <SambaSetup
                 Config={SambaConfig}
                 ConfigUpdateHandler={setSambaConfig}
+            />
+            <DjangoSetup
+                Config={DjangoConfig}
+                ConfigUpdateHandler={setDjangoConfig}
             />
         </div>
     );
