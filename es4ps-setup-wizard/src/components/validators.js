@@ -1,6 +1,9 @@
 const isEmpty = (value) =>
     value === undefined || value === null || value === "";
 
+const isNotEmpty = (value) =>
+    !isEmpty(value);
+
 const isEmailAddressValid = (email) =>
     email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) !== null;
 

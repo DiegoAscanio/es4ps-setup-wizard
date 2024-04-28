@@ -1,40 +1,89 @@
 import React, { useState, useEffect } from "react";
-import ErrorMessage from "./ErrorMessage";
+import { isNotEmpty, isPasswordValid } from "./validators";
+import { InputFieldGroup } from "./InputComponents";
+
+import { 
+    emptyFieldErrorMessage,
+    invalidEmailErrorMessage,
+    invalidPasswordErrorMessage
+} from "./errorMessages";
 
 import "./style.css";
 
 const RabbitMQSetup = ({ Config, ConfigUpdateHandler }) => {
-    // define state to store user credentials and each time
-    // the user changes the input fields, update the state
-    // with the new values and propagate the changes to the
-    // parent component
-    const [username, setUsername] = useState(Config.username);
-    useEffect(() => {
-        const newConfig = { ...Config, username: username };
-        ConfigUpdateHandler(newConfig);
-    }, [username]);
+    // define states to store and check the username
+    const [username, setUsername] = useState('');
+    const [validUsername, setValidUsername] = useState(false);
 
-    // define states to check password validity
-    const [validPassword, setValidPassword] = useState(true);
+    // define states to store and check the password
+    const [password1, setPassword1] = useState('');
+    const [password2, setPassword2] = useState('');
+    const [validPassword, setValidPassword] = useState(false);
 
-    const [password1, setPassword1] = useState(null);
-    const [password2, setPassword2] = useState(null);
+    // define state to store and check the virtual host
+    const [vhost, setVhost] = useState('');
+    const [validVhost, setValidVhost] = useState(false);
+
+    // define useEffect to perform updates on the Config object
     useEffect(() => {
         const newConfig = {
-            ...Config,
-            password: password1 === password2 ? password1 : null,
-            validPassword: password1 === password2,
+            username: {
+                value: isNotEmpty(username)
+                       ? username
+                       : '',
+                valid: isNotEmpty(username)
+            },
+            password: {
+                value: isPasswordValid(password1, password2)
+                       ? password1
+                       : '',
+                valid: isPasswordValid(password1, password2)
+            },
+            vhost: {
+                value: isNotEmpty(vhost)
+                       ? vhost
+                       : '',
+                valid: isNotEmpty(vhost)
+            }
         };
         ConfigUpdateHandler(newConfig);
-        setValidPassword(password1 === password2);
-    }, [password1, password2]);
-
-    // define state to store the virtual host
-    const [vhost, setVhost] = useState("myvhost");
-    useEffect(() => {
-        const newConfig = { ...Config, vhost: vhost };
-        ConfigUpdateHandler(newConfig);
+        setValidUsername(newConfig.username.valid);
+        setValidPassword(newConfig.password.valid);
+        setValidVhost(newConfig.vhost.valid);
     }, [vhost]);
+
+    const inputFieldsMap = {
+        username: {
+            label: "RabbitMQ User",
+            placeholder: "admin",
+            inputHandler: setUsername,
+            validFlag: validUsername,
+            errorMessage: emptyFieldErrorMessage('RabbitMQ User')
+        },
+        password1: {
+            label: "RabbitMQ Password",
+            placeholder: "Passw0rd!",
+            inputHandler: setPassword1,
+            validFlag: true,
+            errorMessage: "",
+            type: "password"
+        },
+        password2: {
+            label: "Confirm RabbitMQ Password",
+            placeholder: "Passw0rd!",
+            inputHandler: setPassword2,
+            validFlag: validPassword,
+            errorMessage: invalidPasswordErrorMessage(),
+            type: "password"
+        },
+        vhost: {
+            label: "RabbitMQ Virtual Host",
+            placeholder: "myvhost",
+            inputHandler: setVhost,
+            validFlag: validVhost,
+            errorMessage: emptyFieldErrorMessage('RabbitMQ Virtual Host')
+        }
+    };
 
     return (
         <>
@@ -56,51 +105,7 @@ const RabbitMQSetup = ({ Config, ConfigUpdateHandler }) => {
                 input the suggested values (when available) assigned to the
                 input fields.
             </p>
-            <div className="form-group">
-                <label htmlFor="rabbitmq_user">RabbitMQ User</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    name="rabbitmq_user"
-                    placeholder="admin"
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="rabbitmq_vhost">RabbitMQ Virtual Host</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    name="rabbitmq_vhost"
-                    placeholder="myvhost"
-                    onChange={(e) => setVhost(e.target.value)}
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="rabbitmq_password_1">RabbitMQ Password:</label>
-                <input
-                    type="password"
-                    className="form-control"
-                    name="rabbitmq_password_1"
-                    placeholder="Passw0rd!"
-                    onChange={(e) => setPassword1(e.target.value)}
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="rabbitmq_password_2">
-                    Confirm RabbitMQ Password:
-                </label>
-                <input
-                    type="password"
-                    className="form-control"
-                    name="rabbitmq_password_2"
-                    placeholder="Passw0rd!"
-                    onChange={(e) => setPassword2(e.target.value)}
-                />
-                {!validPassword && (
-                    <ErrorMessage message="Passwords do not match" />
-                )}
-            </div>
+            <InputFieldGroup inputFieldsMap={inputFieldsMap} />
         </>
     );
 };
