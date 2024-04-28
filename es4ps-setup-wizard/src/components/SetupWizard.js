@@ -1,6 +1,4 @@
 
-import SelectMode from "./SelectMode.js";
-import UploadCertificate from "./UploadCertificate.js";
 import AllInOneSetup from "./AllInOneSetup.js";
 import RabbitMQSetup from "./RabbitMQSetup.js";
 import SambaSetup from "./SambaSetup.js";

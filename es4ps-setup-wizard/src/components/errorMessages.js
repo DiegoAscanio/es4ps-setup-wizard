@@ -1,6 +1,6 @@
 // Description: Error messages for the application
 
-const emptyFieldErrorMessage = ({ field }) => `${field} cannot be empty`;
+const emptyFieldErrorMessage = ( field ) => `${field} cannot be empty`;
 
 const invalidEmailErrorMessage = () =>
     "Invalid email address. Should be in the format: email@example.com";

@@ -49,7 +49,7 @@ const SelectMode = ({ onChange, selectedMode, selectModeMap }) => (
     </select>
 )
 
-UploadCertificate = ({ onCertificateChange, onKeyChange }) => {
+const UploadCertificate = ({ onCertificateChange, onKeyChange }) => {
     const handleFileChanges = (file, handler) => {
         if (file) {
             const reader = new FileReader();

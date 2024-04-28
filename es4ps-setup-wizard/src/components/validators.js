@@ -29,6 +29,7 @@ const isPasswordValid = (password1, password2) => {
 
 export {
     isEmpty,
+    isNotEmpty,
     isEmailAddressValid,
     isIPAddressValid,
     isPasswordValid
