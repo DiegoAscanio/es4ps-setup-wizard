@@ -1,66 +1,128 @@
 import React, { useState, useEffect } from "react";
 import ErrorMessage from "./ErrorMessage";
+import { InputFieldGroup } from "./InputComponents";
+
+import { 
+    emptyFieldErrorMessage,
+    invalidEmailErrorMessage,
+    invalidIPAddressErrorMessage,
+    invalidPasswordErrorMessage,
+} from "./errorMessages";
+
+import { isNotEmpty, isPasswordValid, isIPAddressValid } from "./validators";
 
 import "./style.css";
 
 const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
-    // state for hostname of the samba server
-    const [hostname, setHostname] = useState("ES4PSDC");
-    useEffect(() => {
-        const newConfig = { ...Config, hostname: hostname };
-        ConfigUpdateHandler(newConfig);
-    }, [hostname]);
+    // state to store and check hostname of the samba server
+    const [hostname, setHostname] = useState("");
+    const [validHostname, setValidHostname] = useState(false);
 
-    // state for ip address of the samba server
-    const [ip, setIp] = useState(null);
-    useEffect(() => {
-        const newConfig = { ...Config, ip: ip };
-        ConfigUpdateHandler(newConfig);
-    }, [ip]);
+    // state to store and check ip address of the samba server
+    const [ip, setIp] = useState('');
+    const [validIp, setValidIp] = useState(false);
 
-    // state for the domain of the samba server
-    const [domain, setDomain] = useState("DOM");
-    useEffect(() => {
-        const newConfig = { ...Config, domain: domain };
-        ConfigUpdateHandler(newConfig);
-    }, [domain]);
+    // state to store and check the domain of the samba server
+    const [domain, setDomain] = useState("");
+    const [validDomain, setValidDomain] = useState(false);
 
-    // state for the realm suffix of the samba server
-    const [realmSuffix, setRealmSuffix] = useState(".ES4PS.LOCAL");
-    useEffect(() => {
-        const newConfig = { ...Config, realmSuffix: "." + realmSuffix };
-        ConfigUpdateHandler(newConfig);
-    }, [realmSuffix]);
+    // state to store and check the realm suffix of the samba server
+    const [realmSuffix, setRealmSuffix] = useState("");
+    const [validRealmSuffix, setValidRealmSuffix] = useState(false);
 
-    // state for the admin password of the samba server
-    const isPasswordValid = (password1, password2) => {
-        // password should be at least 8 characters long
-        // password should contain at least one number
-        // password should contain at least one special character
-        // password should contain at least one uppercase letter
-        // password should contain at least one lowercase letter
-        // password should match the confirmation password
-        let condition = true;
-        condition &= password1.length >= 8;
-        condition &= password1.match(/[0-9]/) !== null;
-        condition &= password1.match(/[!@#$%^&*]/) !== null;
-        condition &= password1.match(/[A-Z]/) !== null;
-        condition &= password1.match(/[a-z]/) !== null;
-        condition &= password1 === password2;
-        return Boolean(condition);
-    };
+    // state to store and check the admin password of the samba server
     const [password1, setPassword1] = useState('');
     const [password2, setPassword2] = useState('');
     const [validPassword, setValidPassword] = useState(true);
+
+    // effect to run when any of the fields change
     useEffect(() => {
-        const newConfig = {
-            ...Config,
-            adminPassword: isPasswordValid(password1, password2) ? password1 : null,
-            validAdminPassword: isPasswordValid(password1, password2),
-        };
+        let newConfig = {
+            hostname: {
+                value: isNotEmpty(hostname)
+                       ? hostname
+                       : "",
+                valid: isNotEmpty(hostname)
+            },
+            ip: {
+                value: isIPAddressValid(ip)
+                       ? ip
+                       : "",
+                valid: isIPAddressValid(ip)
+            },
+            domain: {
+                value: isNotEmpty(domain)
+                       ? domain
+                       : "",
+                valid: isNotEmpty(domain)
+            },
+            realmSuffix: {
+                value: isNotEmpty(realmSuffix)
+                       ? realmSuffix
+                       : "",
+                valid: isNotEmpty(realmSuffix)
+            },
+            adminPassword: {
+                value: isPasswordValid(password1, password2)
+                       ? password1
+                       : "",
+                valid: isPasswordValid(password1, password2)
+            }
+        }
         ConfigUpdateHandler(newConfig);
-        setValidPassword(isPasswordValid(password1, password2));
-    }, [password1, password2]);
+        setValidHostname(newConfig.hostname.valid);
+        setValidIp(newConfig.ip.valid);
+        setValidDomain(newConfig.domain.valid);
+        setValidRealmSuffix(newConfig.realmSuffix.valid);
+        setValidPassword(newConfig.adminPassword.valid);
+    }, [hostname, ip, domain, realmSuffix, password1, password2]);
+
+    const inputFieldsMap = {
+        hostname: {
+            label: "Samba Server Hostname",
+            placeholder: "ES4PSDC",
+            inputHandler: setHostname,
+            validFlag: validHostname,
+            errorMessage: emptyFieldErrorMessage("Samba Server Hostname")
+        },
+        ip: {
+            label: "Samba Server IP Address",
+            placeholder: "",
+            inputHandler: setIp,
+            validFlag: validIp,
+            errorMessage: invalidIPAddressErrorMessage()
+        },
+        domain: {
+            label: "Samba Server Domain Name",
+            placeholder: "DOM",
+            inputHandler: setDomain,
+            validFlag: validDomain,
+            errorMessage: emptyFieldErrorMessage("Samba Server Domain Name")
+        },
+        realmSuffix: {
+            label: "Samba Realm Suffix",
+            placeholder: "ES4PS.LOCAL",
+            inputHandler: setRealmSuffix,
+            validFlag: validRealmSuffix,
+            errorMessage: emptyFieldErrorMessage("Samba Realm Suffix")
+        },
+        password1: {
+            label: "Samba Admin User Password",
+            placeholder: "Passw0rd!",
+            inputHandler: setPassword1,
+            validFlag: true,
+            errorMessage: "",
+            type: "password"
+        },
+        password2: {
+            label: "Confirm Samba Admin User Password",
+            placeholder: "Passw0rd!",
+            inputHandler: setPassword2,
+            validFlag: validPassword,
+            errorMessage: invalidPasswordErrorMessage(),
+            type: "password"
+        }
+    };
     return (
         <>
             <h2>Samba Setup</h2>
@@ -68,7 +130,8 @@ const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
                 Samba is a free and open-source software suite that provides
                 file, print and active directory / domain controller services
                 such as user authentication and authorization for Microsoft
-                Windows clients.
+                Windows clients. For that reason, samba is the core of the
+                ES4PS platform to authenticate users in their Windows machines.
             </p>
             <p>
                 For Samba you will need to configure a hostname for the server,
@@ -80,72 +143,7 @@ const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
                 If you are not sure about the inputs you can use the suggested
                 values when available.
             </p>
-            <div className="form-group">
-                <label htmlFor="samba_hostname">Samba Server Hostname</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    name="samba_user"
-                    placeholder="ES4PSDC"
-                    onChange={(e) => setHostname(e.target.value)}
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="samba_ip">Samba Server IP Address</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    name="samba_ip"
-                    onChange={(e) => setIp(e.target.value)}
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="samba_domain">Samba Server Domain Name</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    name="samba_domain"
-                    placeholder="DOM"
-                    onChange={(e) => setDomain(e.target.value)}
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="samba_realm">Samba Realm Suffix</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    name="samba_realm"
-                    placeholder="ES4PS.LOCAL"
-                    onChange={(e) => setRealmSuffix(e.target.value)}
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="samba_password_1">
-                    Samba Admin User Password:
-                </label>
-                <input
-                    type="password"
-                    className="form-control"
-                    name="samba_password_1"
-                    onChange={(e) => setPassword1(e.target.value)}
-                    placeholder="Passw0rd!"
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="samba_password_2">
-                    Confirm Samba Admin User Password:
-                </label>
-                <input
-                    type="password"
-                    className="form-control"
-                    name="samba_password_2"
-                    onChange={(e) => setPassword2(e.target.value)}
-                    placeholder="Passw0rd!"
-                />
-                {!validPassword && (
-                    <ErrorMessage message="Password must have at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 special character and passwords must be equal." />
-                )}
-            </div>
+            <InputFieldGroup inputFieldsMap={inputFieldsMap} />
         </>
     );
 };

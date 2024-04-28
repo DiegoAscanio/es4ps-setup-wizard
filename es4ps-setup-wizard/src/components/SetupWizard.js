@@ -102,6 +102,10 @@ const SetupWizard = () => {
                 Config={RabbitMQConfig}
                 ConfigUpdateHandler={setRabbitMQConfig}
             />
+            <SambaSetup
+                Config={SambaConfig}
+                ConfigUpdateHandler={setSambaConfig}
+            />
         </div>
     );
 }
