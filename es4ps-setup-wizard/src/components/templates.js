@@ -7,8 +7,8 @@ const _genRabbitMQSection = (Config) => (
 )
 
 const _genSambaSection = (Config) => {
-    samba = Config.samba;
-    rabbitMQ = Config.rabbitMQ;
+    let samba = Config.samba;
+    let rabbitMQ = Config.rabbitMQ;
     let serverRealm = samba.domain.value + '.' + samba.realmSuffix.value;
     return (
         `# Samba dotenv section\n` +

@@ -23,8 +23,10 @@ const SetupWizard = () => {
         password: {
             value: '',
             valid: false
-        }
+        },
     });
+    // defining state to verify if the configuration is valid
+    const [ validRabbitMQConfig, setValidRabbitMQConfig ] = useState(false);
 
     // defining state to store samba configuration dictionary
     const [ SambaConfig, setSambaConfig ] = useState({
@@ -48,6 +50,7 @@ const SetupWizard = () => {
             value: '',
             valid: false
         },
+        valid: false
     });
 
     // defining state for the django configuration dictionary
@@ -84,6 +87,7 @@ const SetupWizard = () => {
             value: '',
             valid: false
         },
+        valid: false
     });
 
     // define state for all-in-one configuration dictionary
@@ -98,17 +102,24 @@ const SetupWizard = () => {
     const [ CompositionResults, setCompositionResults ] = useState(null);
 
     useEffect(() => {
+        console.log(RabbitMQConfig);
         let newConfig = {
             rabbitMQ: RabbitMQConfig,
             samba: SambaConfig,
             django: DjangoConfig,
-            valid: (validConfig(RabbitMQConfig) &&
-                   validConfig(SambaConfig) &&
-                   validConfig(DjangoConfig)) ||
-                   true
+            valid: RabbitMQConfig.valid &&
+                   SambaConfig.valid &&
+                   DjangoConfig.valid
+
         };
         setAllInOneConfig(newConfig);
-    }, [RabbitMQSetup, SambaConfig, DjangoConfig]);
+    }, [RabbitMQConfig, SambaConfig, DjangoConfig]);
+
+    // useEffect for all-in-one configuration
+    // for now we'll just log the configuration
+    useEffect(() => {
+        //console.log(AllInOneConfig);
+    }, [AllInOneConfig]);
 
     return (
         <div>
@@ -125,10 +136,12 @@ const SetupWizard = () => {
                 Config={DjangoConfig}
                 ConfigUpdateHandler={setDjangoConfig}
             />
-            <CreateES4PSContainersComposition 
-                Config={AllInOneConfig}
-                ResultsHandler={setCompositionResults}
-            />
+            {AllInOneConfig.valid &&
+                <CreateES4PSContainersComposition 
+                   Config={AllInOneConfig}
+                    ConfigUpdateHandler={setAllInOneConfig}
+                />
+            }
         </div>
     );
 }

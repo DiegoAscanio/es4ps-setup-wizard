@@ -2,33 +2,34 @@ import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { genDotEnvFile } from './templates';
 
-const functionPipeLine = {
-    downloadES4PSContainersComposition: openFile,
-    openFile: loadZip,
-    loadZip: makeDotEnvFile,
-    makeDotEnvFiles: addDotEnvToZipAndReZip,
-    addDotEnvToZipAndReZip: null
-}
-
-const downloadES4PSContainersComposition = ({ProcessingConfig, ProcessingConfigHandler}) => {
-    let url = process.env.URL + "public/files/es4ps-containers-0.0.0.zip";
+const downloadES4PSContainersComposition = (ProcessingConfig, ProcessingConfigHandler) => {
+    let url = process.env.PUBLIC_URL + "/files/es4ps-containers-0.0.0.zip";
+    console.log(url);
     // wait for file to be ready
     fetch(url).then((response) => {
-        let nextStep = functionPipeLine[downloadES4PSContainersComposition];
-        let zippedFile = response.blob();
-        let newConfig  = {
-            ...ProcessingConfig,
-            zippedFile: zippedFile
-        };
-        ProcessingConfigHandler(newConfig);
-        return nextStep({ProcessingConfig, ProcessingConfigHandler});
+        response.blob().then((blob) => {
+            let zippedFile = blob;
+            console.log(zippedFile);
+            let newConfig  = {
+                ...ProcessingConfig,
+                zippedFile: zippedFile
+            };
+            ProcessingConfigHandler(newConfig);
+            return functionPipeLine[
+                'downloadES4PSContainersComposition'
+            ](newConfig, ProcessingConfigHandler);
+        }).catch((error) => {
+            console.error("Error while processing blob from response");
+            console.error(error);
+        });;
+
     }).catch((error) => {
         console.error("Error downloading ES4PS Containers Composition");
         console.error(error);
     });
 };
 
-const openFile = ({ProcessingConfig, ProcessingConfigHandler}) => {
+const openFile = (ProcessingConfig, ProcessingConfigHandler) => {
     const reader = new FileReader();
     reader.onload = (event) => {
         let data = event.target.result;
@@ -37,8 +38,9 @@ const openFile = ({ProcessingConfig, ProcessingConfigHandler}) => {
             openedFile: data
         };
         ProcessingConfigHandler(newConfig);
-        let nextStep = functionPipeLine[openFile];
-        return nextStep({ProcessingConfig, ProcessingConfigHandler});
+        return functionPipeLine[
+            'openFile'
+        ](newConfig, ProcessingConfigHandler);
     };
     reader.onerror = (error) => {
         console.error("Error opening file");
@@ -47,7 +49,7 @@ const openFile = ({ProcessingConfig, ProcessingConfigHandler}) => {
     reader.readAsArrayBuffer(ProcessingConfig.zippedFile);
 };
 
-const loadZip = ({ProcessingConfig, ProcessingConfigHandler}) => {
+const loadZip = (ProcessingConfig, ProcessingConfigHandler) => {
     const JSZip = window.JSZip;
     JSZip.loadAsync(ProcessingConfig.openedFile).then((zip) => {
         let newConfig = {
@@ -55,26 +57,28 @@ const loadZip = ({ProcessingConfig, ProcessingConfigHandler}) => {
             loeadedZip: zip
         };
         ProcessingConfigHandler(newConfig);
-        let nextStep = functionPipeLine[loadZip];
-        return nextStep({ProcessingConfig, ProcessingConfigHandler});
+        return functionPipeLine[
+            'loadZip'
+        ](newConfig, ProcessingConfigHandler);
     }).catch((error) => {
         console.error("Error loading zip file");
         console.error(error);
     });
 };
 
-const makeDotEnvFile = ({ProcessingConfig, ProcessingConfigHandler}) => {
+const makeDotEnvFile = (ProcessingConfig, ProcessingConfigHandler) => {
     let dotEnv = genDotEnvFile(ProcessingConfig);
     let newConfig = {
         ...ProcessingConfig,
         dotEnv: dotEnv
     };
     ProcessingConfigHandler(newConfig);
-    let nextStep = functionPipeLine[makeDotEnvFile];
-    return nextStep({ProcessingConfig, ProcessingConfigHandler});
+    return functionPipeLine[
+        'makeDotEnvFile'
+    ](newConfig, ProcessingConfigHandler);
 };
 
-const addDotEnvToZipAndReZip = ({ProcessingConfig, ProcessingConfigHandler}) => {
+const addDotEnvToZipAndReZip = (ProcessingConfig, ProcessingConfigHandler) => {
     let zip = ProcessingConfig.loadedZip;
     let dotEnv = ProcessingConfig.dotEnv;
     zip.file('.env', dotEnv);
@@ -89,42 +93,46 @@ const addDotEnvToZipAndReZip = ({ProcessingConfig, ProcessingConfigHandler}) => 
         }
         // Aqui o pipeline termina adicionando o arquivo com a configuração
         // .env concluída
+        console.log("Final Config:");
+        console.log(newConfig);
         ProcessingConfigHandler(newConfig);
     });
 }
 
-
-
-
-const create_es4ps_containers_composition = ({ProcessingConfig, ProcessingConfigHandler}) => {
-    // 1. build .env files from ProcessingConfig
-    // 2. clone es4ps-containers repo with isomorphic git
-    // 3. copy .env files to es4ps-containers folder
-    // 4. zip es4ps-containers folder
-    // 5. make it available to the user for download
-
-    downloadES4PSContainersComposition({ProcessingConfig, ProcessingConfigHandler});
+const functionPipeLine = {
+    downloadES4PSContainersComposition: openFile,
+    openFile: loadZip,
+    loadZip: makeDotEnvFile,
+    makeDotEnvFiles: addDotEnvToZipAndReZip,
+    addDotEnvToZipAndReZip: null
 }
+
 
 const CreateES4PSContainersComposition = ({ Config, ConfigUpdateHandler }) => {
     const [ProcessingConfig, setProcessingConfig] = useState(Config);
+    const create_es4ps_containers_composition = () => {
+       // 1. build .env files from ProcessingConfig
+       // 2. clone es4ps-containers repo with isomorphic git
+       // 3. copy .env files to es4ps-containers folder
+       // 4. zip es4ps-containers folder
+       // 5. make it available to the user for download
+       downloadES4PSContainersComposition(ProcessingConfig, setProcessingConfig);
+    }
+
     return (
         <>
             <Helmet>
                 <script src="https://unpkg.com/jszip@3.7.1/dist/jszip.js" type="text/javascript"></script>
-                <script type="text/javascript">
-                    console.log(window.JSZip);
-                </script>
             </Helmet>
-            { ProcessingConfig.valid && (
+            <div>
                 <button 
                     onClick={
-                        () => create_es4ps_containers_composition(ProcessingConfig, setProcessingConfig)
+                        () => create_es4ps_containers_composition()
                     }
                 >
                 Create ES4PS<br/>Containers Composition
                 </button>
-            )}
+            </div>
         </>
     );
 }

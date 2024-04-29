@@ -89,7 +89,7 @@ const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
         ConfigUpdateHandler(newConfig);
         setValidDjangoSuperuserName(newConfig.superuserName.valid);
         setValidDjangoSuperuserPassword(newConfig.superuserPassword.valid);
-        setValidFQDN(newConfig.djangoFQDN.valid);
+        setValidFQDN(newConfig.FQDN.valid);
         setValidAllowedEmailDomains(newConfig.allowedEmailDomains.valid);
         setValidSmtpServer(newConfig.smtpServer.valid);
         setValidSmtpPort(newConfig.smtpPort.valid);

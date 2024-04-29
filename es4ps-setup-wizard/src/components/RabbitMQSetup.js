@@ -50,7 +50,7 @@ const RabbitMQSetup = ({ Config, ConfigUpdateHandler }) => {
         setValidUsername(newConfig.username.valid);
         setValidPassword(newConfig.password.valid);
         setValidVhost(newConfig.vhost.valid);
-    }, [vhost]);
+    }, [username, password1, password2, vhost]);
 
     const inputFieldsMap = {
         username: {
