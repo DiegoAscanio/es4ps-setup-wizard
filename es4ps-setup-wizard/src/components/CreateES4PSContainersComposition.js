@@ -3,13 +3,11 @@ import { Helmet } from 'react-helmet';
 import { genDotEnvFile } from './templates';
 
 const downloadES4PSContainersComposition = (ProcessingConfig, ProcessingConfigHandler) => {
-    let url = process.env.PUBLIC_URL + "/files/es4ps-containers-0.0.0.zip";
-    console.log(url);
+    let url = process.env.PUBLIC_URL + "/files/es4ps-containers-unconfigured.zip";
     // wait for file to be ready
     fetch(url).then((response) => {
         response.blob().then((blob) => {
             let zippedFile = blob;
-            console.log(zippedFile);
             let newConfig  = {
                 ...ProcessingConfig,
                 zippedFile: zippedFile
@@ -54,7 +52,7 @@ const loadZip = (ProcessingConfig, ProcessingConfigHandler) => {
     JSZip.loadAsync(ProcessingConfig.openedFile).then((zip) => {
         let newConfig = {
             ...ProcessingConfig,
-            loeadedZip: zip
+            loadedZip: zip
         };
         ProcessingConfigHandler(newConfig);
         return functionPipeLine[
@@ -89,12 +87,11 @@ const addDotEnvToZipAndReZip = (ProcessingConfig, ProcessingConfigHandler) => {
             updatedZip: {
                 filename: "es4ps-containers-configured.zip",
                 data: content
-            }
+            },
+            finished: true
         }
         // Aqui o pipeline termina adicionando o arquivo com a configuração
         // .env concluída
-        console.log("Final Config:");
-        console.log(newConfig);
         ProcessingConfigHandler(newConfig);
     });
 }
@@ -103,13 +100,20 @@ const functionPipeLine = {
     downloadES4PSContainersComposition: openFile,
     openFile: loadZip,
     loadZip: makeDotEnvFile,
-    makeDotEnvFiles: addDotEnvToZipAndReZip,
+    makeDotEnvFile: addDotEnvToZipAndReZip,
     addDotEnvToZipAndReZip: null
 }
 
 
-const CreateES4PSContainersComposition = ({ Config, ConfigUpdateHandler }) => {
+const CreateES4PSContainersComposition = ({ Config, ConfigUpdateHandler, setCompositionResult }) => {
     const [ProcessingConfig, setProcessingConfig] = useState(Config);
+    useEffect (() => {
+        ConfigUpdateHandler(ProcessingConfig);
+        if (ProcessingConfig.finished) {
+            setCompositionResult(ProcessingConfig.updatedZip);
+        }
+    }, [ProcessingConfig]);
+
     const create_es4ps_containers_composition = () => {
        // 1. build .env files from ProcessingConfig
        // 2. clone es4ps-containers repo with isomorphic git
@@ -124,7 +128,7 @@ const CreateES4PSContainersComposition = ({ Config, ConfigUpdateHandler }) => {
             <Helmet>
                 <script src="https://unpkg.com/jszip@3.7.1/dist/jszip.js" type="text/javascript"></script>
             </Helmet>
-            <div>
+            <div class="form-group">
                 <button 
                     onClick={
                         () => create_es4ps_containers_composition()
@@ -134,7 +138,7 @@ const CreateES4PSContainersComposition = ({ Config, ConfigUpdateHandler }) => {
                 </button>
             </div>
         </>
-    );
+    )
 }
 
 export default CreateES4PSContainersComposition;

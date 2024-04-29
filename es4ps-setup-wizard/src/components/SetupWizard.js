@@ -5,6 +5,7 @@ import SambaSetup from "./SambaSetup.js";
 import DjangoSetup from "./DjangoSetup.js";
 import { validConfig } from "./validators";
 import CreateES4PSContainersComposition from "./CreateES4PSContainersComposition.js";
+import DownloadContainersComposition from "./DownloadContainersComposition.js";
 
 import { useState, useEffect } from 'react';
 
@@ -50,8 +51,9 @@ const SetupWizard = () => {
             value: '',
             valid: false
         },
-        valid: false
     });
+    // defining state to verify if the configuration is valid
+    const [ validSambaConfig, setValidSambaConfig ] = useState(false);
 
     // defining state for the django configuration dictionary
     const [ DjangoConfig, setDjangoConfig ] = useState({
@@ -87,39 +89,45 @@ const SetupWizard = () => {
             value: '',
             valid: false
         },
-        valid: false
     });
+    // defining state to verify if the configuration is valid
+    const [ validDjangoConfig, setValidDjangoConfig ] = useState(false);
 
     // define state for all-in-one configuration dictionary
     const [ AllInOneConfig, setAllInOneConfig ] = useState({
         rabbitMQ: RabbitMQConfig,
         samba: SambaConfig,
         django: DjangoConfig,
-        valid: false
     });
+    // define state to verify if the configuration is valid
+    const [ validAllInOneConfig, setValidAllInOneConfig ] = useState(false);
 
-    // define state for the results of the composition
-    const [ CompositionResults, setCompositionResults ] = useState(null);
+    // define state for the result of the composition
+    const [ CompositionResult, setCompositionResult ] = useState(null);
+    const [ isCompositionResult, setIsCompositionResult ] = useState(false);
 
     useEffect(() => {
-        console.log(RabbitMQConfig);
+        if (CompositionResult) {
+            setIsCompositionResult(true);
+        }
+    }, [CompositionResult]);
+
+    useEffect(() => {
         let newConfig = {
             rabbitMQ: RabbitMQConfig,
             samba: SambaConfig,
             django: DjangoConfig,
-            valid: RabbitMQConfig.valid &&
-                   SambaConfig.valid &&
-                   DjangoConfig.valid
-
         };
         setAllInOneConfig(newConfig);
+        setValidRabbitMQConfig(validConfig(RabbitMQConfig));
+        setValidSambaConfig(validConfig(SambaConfig));
+        setValidDjangoConfig(validConfig(DjangoConfig));
+        setValidAllInOneConfig(
+            validConfig(RabbitMQConfig) &&
+            validConfig(SambaConfig) &&
+            validConfig(DjangoConfig)
+        );
     }, [RabbitMQConfig, SambaConfig, DjangoConfig]);
-
-    // useEffect for all-in-one configuration
-    // for now we'll just log the configuration
-    useEffect(() => {
-        //console.log(AllInOneConfig);
-    }, [AllInOneConfig]);
 
     return (
         <div>
@@ -136,10 +144,16 @@ const SetupWizard = () => {
                 Config={DjangoConfig}
                 ConfigUpdateHandler={setDjangoConfig}
             />
-            {AllInOneConfig.valid &&
+            {validAllInOneConfig &&
                 <CreateES4PSContainersComposition 
                    Config={AllInOneConfig}
-                    ConfigUpdateHandler={setAllInOneConfig}
+                   ConfigUpdateHandler={setAllInOneConfig}
+                   setCompositionResult={setCompositionResult}
+                />
+            }
+            {isCompositionResult &&
+                <DownloadContainersComposition
+                    zipfile={CompositionResult}
                 />
             }
         </div>
