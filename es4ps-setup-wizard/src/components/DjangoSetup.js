@@ -49,7 +49,7 @@ const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
                        : "",
                 valid: isPasswordValid(password1, password2)
             },
-            djangoFQDN: {
+            FQDN: {
                 value: isNotEmpty(FQDN)
                        ? FQDN
                        : "",

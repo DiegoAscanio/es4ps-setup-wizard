@@ -3,6 +3,8 @@ import AllInOneSetup from "./AllInOneSetup.js";
 import RabbitMQSetup from "./RabbitMQSetup.js";
 import SambaSetup from "./SambaSetup.js";
 import DjangoSetup from "./DjangoSetup.js";
+import { validConfig } from "./validators";
+import CreateES4PSContainersComposition from "./CreateES4PSContainersComposition.js";
 
 import { useState, useEffect } from 'react';
 
@@ -58,7 +60,7 @@ const SetupWizard = () => {
             value: '',
             valid: false
         },
-        djangoFQDN: {
+        FQDN: {
             value: '',
             valid: false
         },
@@ -83,9 +85,30 @@ const SetupWizard = () => {
             valid: false
         },
     });
+
+    // define state for all-in-one configuration dictionary
+    const [ AllInOneConfig, setAllInOneConfig ] = useState({
+        rabbitMQ: RabbitMQConfig,
+        samba: SambaConfig,
+        django: DjangoConfig,
+        valid: false
+    });
+
+    // define state for the results of the composition
+    const [ CompositionResults, setCompositionResults ] = useState(null);
+
     useEffect(() => {
-        console.log(DjangoConfig);
-    }, [DjangoConfig]);
+        let newConfig = {
+            rabbitMQ: RabbitMQConfig,
+            samba: SambaConfig,
+            django: DjangoConfig,
+            valid: (validConfig(RabbitMQConfig) &&
+                   validConfig(SambaConfig) &&
+                   validConfig(DjangoConfig)) ||
+                   true
+        };
+        setAllInOneConfig(newConfig);
+    }, [RabbitMQSetup, SambaConfig, DjangoConfig]);
 
     return (
         <div>
@@ -101,6 +124,10 @@ const SetupWizard = () => {
             <DjangoSetup
                 Config={DjangoConfig}
                 ConfigUpdateHandler={setDjangoConfig}
+            />
+            <CreateES4PSContainersComposition 
+                Config={AllInOneConfig}
+                ResultsHandler={setCompositionResults}
             />
         </div>
     );

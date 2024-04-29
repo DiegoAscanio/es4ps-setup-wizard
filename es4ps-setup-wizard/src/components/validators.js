@@ -1,3 +1,14 @@
+const validConfig = ( config ) => {
+    let valid = true;
+    for ( let attribute in config ) {
+        if ( ! config[attribute].valid ) {
+            valid = false;
+            break;
+        }
+    }
+    return valid;
+};
+
 const isEmpty = (value) =>
     value === undefined || value === null || value === "";
 
@@ -32,5 +43,6 @@ export {
     isNotEmpty,
     isEmailAddressValid,
     isIPAddressValid,
-    isPasswordValid
+    isPasswordValid,
+    validConfig
 };
