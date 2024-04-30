@@ -24,8 +24,8 @@ const _genSambaSection = (Config) => {
     )
 };
 
-const _genDjangoSecretKey = (length = 64) => {
-  const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{};':\"\\|,.<>/?";
+const _genDjangoSecretKey = (length = 256) => {
+  const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*_+-=;:|,?";
   let key = "";
   for (let i = 0; i < length; i++) {
     key += charSet.charAt(Math.floor(Math.random() * charSet.length));
