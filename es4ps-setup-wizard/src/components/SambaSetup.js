@@ -80,7 +80,7 @@ const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
     const inputFieldsMap = {
         hostname: {
             label: "Samba Server Hostname",
-            placeholder: "ES4PSDC",
+            placeholder: "es4psdc",
             inputHandler: setHostname,
             validFlag: validHostname,
             errorMessage: emptyFieldErrorMessage("Samba Server Hostname")
@@ -94,14 +94,14 @@ const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
         },
         domain: {
             label: "Samba Server Domain Name",
-            placeholder: "DOM",
+            placeholder: "dom",
             inputHandler: setDomain,
             validFlag: validDomain,
             errorMessage: emptyFieldErrorMessage("Samba Server Domain Name")
         },
         realmSuffix: {
             label: "Samba Realm Suffix",
-            placeholder: "ES4PS.LOCAL",
+            placeholder: "es4ps.local",
             inputHandler: setRealmSuffix,
             validFlag: validRealmSuffix,
             errorMessage: emptyFieldErrorMessage("Samba Realm Suffix")
