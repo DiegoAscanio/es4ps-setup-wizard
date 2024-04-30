@@ -85,7 +85,7 @@ const addDotEnvToZipAndReZip = (ProcessingConfig, ProcessingConfigHandler) => {
         let newConfig = {
             ...ProcessingConfig,
             updatedZip: {
-                filename: "es4ps-containers-configured.zip",
+                filename: "es4ps-containers.zip",
                 data: content
             },
             finished: true
