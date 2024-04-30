@@ -25,7 +25,7 @@ const _genSambaSection = (Config) => {
 };
 
 const _genDjangoSecretKey = (length = 256) => {
-  const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*_+-=;:|,?";
+  const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#%^+-=?µßþøŧ®©";
   let key = "";
   for (let i = 0; i < length; i++) {
     key += charSet.charAt(Math.floor(Math.random() * charSet.length));
@@ -54,7 +54,7 @@ const _genDjangoSection = (Config) => {
         `DJANGO_SUPERUSER_USERNAME=${django.superuserName.value}\n` +
         `DJANGO_SUPERUSER_PASSWORD=${django.superuserPassword.value}\n` +
 		`DJANGO_SUPERUSER_EMAIL=admin@example.com\n` +
-        `DJANGO_SECRET_KEY=${djangoSecretKey}\n`
+        `DJANGO_SECRET_KEY="${djangoSecretKey}"\n`
     )
 };
 
