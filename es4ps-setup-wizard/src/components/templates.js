@@ -24,12 +24,23 @@ const _genSambaSection = (Config) => {
     )
 };
 
+const _genDjangoSecretKey = (length = 64) => {
+  const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{};':\"\\|,.<>/?";
+  let key = "";
+  for (let i = 0; i < length; i++) {
+    key += charSet.charAt(Math.floor(Math.random() * charSet.length));
+  }
+  return key;
+};
+
 const _genDjangoSection = (Config) => {
     let rabbitMQ = Config.rabbitMQ;
     let samba = Config.samba;
-    let django = Config.django;
     let celeryBrokerURL = `amqps://${rabbitMQ.username.value}:${rabbitMQ.password.value}@${samba.ip.value}:5671/${rabbitMQ.vhost.value}`;
     let celeryBackendURL = `rpc://${rabbitMQ.username.value}:${rabbitMQ.password.value}@${samba.ip.value}:5671/${rabbitMQ.vhost.value}`;
+    let django = Config.django;
+    let djangoSecretKey = _genDjangoSecretKey();
+
     return (
         `ES4C_MANAGER_ALLOWED_EMAIL_DOMAINS=${django.allowedEmailDomains.value}\n` +
         `ES4C_MANAGER_SMTP_SERVER=${django.smtpServer.value}\n` +
@@ -42,7 +53,8 @@ const _genDjangoSection = (Config) => {
         `SAMBA_ADMIN_PASSWORD=${samba.adminPassword.value}\n` +
         `DJANGO_SUPERUSER_USERNAME=${django.superuserName.value}\n` +
         `DJANGO_SUPERUSER_PASSWORD=${django.superuserPassword.value}\n` +
-		`DJANGO_SUPERUSER_EMAIL=admin@example.com`
+		`DJANGO_SUPERUSER_EMAIL=admin@example.com\n` +
+        `DJANGO_SECRET_KEY=${djangoSecretKey}\n`
     )
 };
 
