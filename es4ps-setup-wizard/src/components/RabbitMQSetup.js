@@ -1,3 +1,21 @@
+/* 
+ *  RabbitMQSetup, DjangoSetup and SambaSetup are all similar components
+ *  structured in the same way:
+ *  - They contain states to store values from the input fields and
+ *    boolean flags states to check if the values are valid or not.
+ *  - They contain useEffect hooks to update the Config state with the
+ *    values from the input fields if they are valid.
+ *  - They use an input field map containing the label, placeholder,
+ *    input handler, valid flag, error message and type of the input
+ *    for each property needed to be set in the Config state.
+ *      - This is made this way to avoid code repetition when creating
+ *      div form-groups to show each input field. So, instead of building
+ *      each div form-group manually, we can use the InputFieldGroup
+ *      component to receive a map of them and render all the input fields
+ *      in a loop.
+ */
+
+
 import React, { useState, useEffect } from "react";
 import { isNotEmpty, isPasswordValid } from "./validators";
 import { InputFieldGroup } from "./InputComponents";
@@ -23,8 +41,25 @@ const RabbitMQSetup = ({ Config, ConfigUpdateHandler }) => {
     // define state to store and check the virtual host
     const [vhost, setVhost] = useState('');
     const [validVhost, setValidVhost] = useState(false);
+    /* 
+     * Vhosts (virtual hosts) needs to be set in RabbitMQ in order
+     * to enable separate environments for different applications.
+     * This is useful when you have multiple applications running
+     * on the same RabbitMQ server and you want to separate
+     * the queues, exchanges and bindings for each one to avoid
+     * conflicts between them.
+     *
+     * In this ES4PS release only one queue is used, so only
+     * one vhost (or none at all) is needed. But it is a good
+     * practice to use vhosts to separate the environments.
+     *
+     * If more queues are needed in a next release, the current
+     * configuration prepares the environment to handle them
+     * with more vhosts.
+     */
 
     // define useEffect to perform updates on the Config object
+    // if and only if the values are valid.
     useEffect(() => {
         const newConfig = {
             username: {
@@ -52,6 +87,10 @@ const RabbitMQSetup = ({ Config, ConfigUpdateHandler }) => {
         setValidVhost(newConfig.vhost.valid);
     }, [username, password1, password2, vhost]);
 
+    // The same as in DjangoSetup and SambaSetup, an inputFieldsMap
+    // is defined to store the properties of each input field needed
+    // to be set in the Config state in order to avoid code repetition.
+    // This is provided by the InputFieldGroup component.
     const inputFieldsMap = {
         username: {
             label: "RabbitMQ User",
@@ -85,6 +124,7 @@ const RabbitMQSetup = ({ Config, ConfigUpdateHandler }) => {
         }
     };
 
+    // Another component with clean and simple JSX code.
     return (
         <>
             <h2>RabbitMQ Setup</h2>

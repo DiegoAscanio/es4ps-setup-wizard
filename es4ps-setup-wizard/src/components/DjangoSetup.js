@@ -1,3 +1,20 @@
+/* 
+ *  RabbitMQSetup, DjangoSetup and SambaSetup are all similar components
+ *  structured in the same way:
+ *  - They contain states to store values from the input fields and
+ *    boolean flags states to check if the values are valid or not.
+ *  - They contain useEffect hooks to update the Config state with the
+ *    values from the input fields if they are valid.
+ *  - They use an input field map containing the label, placeholder,
+ *    input handler, valid flag, error message and type of the input
+ *    for each property needed to be set in the Config state.
+ *      - This is made this way to avoid code repetition when creating
+ *      div form-groups to show each input field. So, instead of building
+ *      each div form-group manually, we can use the InputFieldGroup
+ *      component to receive a map of them and render all the input fields
+ *      in a loop.
+ */
+
 import { useState, useEffect } from "react";
 
 import { 
@@ -35,6 +52,9 @@ const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
     const [smtpPassword, setSmtpPassword] = useState("");
     const [validSmtpPassword, setValidSmtpPassword] = useState(false);
 
+    // any update in each of these states will trigger this effect
+    // to update the Config state with the new values if they are valid
+    // and update the valid flags of each state.
     useEffect(() => {
         let newConfig = {
             superuserName: {
@@ -106,6 +126,13 @@ const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
         smtpUsername,
         smtpPassword,
     ]);
+
+    // here it is defined the map of input fields to be rendered
+    // by the InputFieldGroup component, in order to avoid code repetition.
+    // On next releases of ESP4S, it is planned to store this map in a
+    // JSON file and load it dynamically to avoid code repetition. Also,
+    // maybe a component to create these JSONs asking for the fields
+    // and their properties could be created.
     const inputFieldsMap = {
         superuserName: {
             label: "Django Superuser Username",
@@ -144,7 +171,15 @@ const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
             validFlag: validAllowedEmailDomains,
             errorMessage: emptyFieldErrorMessage("Allowed Email Domains")
         },
-        smtpServer: {
+        // maybe in next releases smtpServer, smtpPort, smtpUsername and
+        // smtpPassword will be replaced by django email services by
+        // itselves, but for now, we need to have an existing SMTP server
+        // with TLS over port 587 to send emails. We also need to hava
+        // a valid email account (and its passwords) to send emails.
+        // So the user needs to provide these informations and at least
+        // the email will be validated to be a valid email address in the
+        // format user@email.provider
+        smtpServer: { 
             label: "SMTP Server",
             placeholder: "smtp.example.com",
             inputHandler: setSmtpServer,
@@ -174,6 +209,9 @@ const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
             type: "password"
         },
     };
+    // as it is possible to see, the rendering code of this component
+    // is very simple and clean, because the input fields are defined
+    // in a map and rendered by the InputFieldGroup component.
     return (
         <>
             <h2>Django Setup</h2>
