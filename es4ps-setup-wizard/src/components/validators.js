@@ -1,3 +1,14 @@
+/* 
+ * In this file all functions to validate anything that must be valid
+ * needs to be defined.
+ * For the current release all the functions are defined to match
+ * the criteria for each input field in the setup form and a validConfig
+ * function is defined to check if all the fields in a config object
+ * are valid in a generic way that will works for any kind of config.
+ *
+ * In next releases new validate functions should be added here.
+ */
+
 const validConfig = ( config ) => {
     let valid = true;
     for ( let attribute in config ) {
