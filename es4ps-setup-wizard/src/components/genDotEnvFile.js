@@ -66,4 +66,4 @@ const genDotEnvFile = (AllInOneConfig) => {
     return dotEnv;
 };
 
-export { genDotEnvFile };
+export default genDotEnvFile;

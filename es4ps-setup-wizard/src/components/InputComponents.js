@@ -1,5 +1,5 @@
 
-import ErrorMessage from "./ErrorMessage";
+import { ErrorMessage } from "./ErrorMessage";
 
 const InputField = ({ 
     label, placeholder, inputHandler, validFlag, errorMessage, type="text"

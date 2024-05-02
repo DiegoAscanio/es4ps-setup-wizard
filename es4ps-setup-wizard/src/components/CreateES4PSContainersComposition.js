@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { genDotEnvFile } from './templates';
+import genDotEnvFile from './genDotEnvFile';
 
 const downloadES4PSContainersComposition = (ProcessingConfig, ProcessingConfigHandler) => {
     let url = process.env.PUBLIC_URL + "/files/es4ps-containers-unconfigured.zip";

@@ -20,13 +20,12 @@ import React, { useState, useEffect } from "react";
 import { isNotEmpty, isPasswordValid } from "./validators";
 import { InputFieldGroup } from "./InputComponents";
 
-import { 
-    emptyFieldErrorMessage,
-    invalidEmailErrorMessage,
-    invalidPasswordErrorMessage
-} from "./errorMessages";
+import { templateMessages } from "./ErrorMessage";
 
 import "./style.css";
+
+const emptyFieldErrorMessage = templateMessages.emptyFieldErrorMessage;
+const invalidPasswordErrorMessage = templateMessages.invalidPasswordErrorMessage;
 
 const RabbitMQSetup = ({ Config, ConfigUpdateHandler }) => {
     // define states to store and check the username

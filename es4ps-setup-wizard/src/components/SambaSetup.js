@@ -20,19 +20,14 @@
  */
 
 import React, { useState, useEffect } from "react";
-import ErrorMessage from "./ErrorMessage";
 import { InputFieldGroup } from "./InputComponents";
-
-import {
-    emptyFieldErrorMessage,
-    invalidEmailErrorMessage,
-    invalidIPAddressErrorMessage,
-    invalidPasswordErrorMessage,
-} from "./errorMessages";
-
+import { templateMessages } from "./ErrorMessage";
 import { isNotEmpty, isPasswordValid, isIPAddressValid } from "./validators";
-
 import "./style.css";
+
+const emptyFieldErrorMessage = templateMessages.emptyFieldErrorMessage;
+const invalidIPAddressErrorMessage = templateMessages.invalidIPAddressErrorMessage;
+const invalidPasswordErrorMessage = templateMessages.invalidPasswordErrorMessage;
 
 const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
     // state to store and check hostname of the samba server

@@ -23,13 +23,15 @@ import {
     isPasswordValid 
 } from "./validators";
 
-import { 
-    emptyFieldErrorMessage, 
-    invalidPasswordErrorMessage, 
-    invalidEmailErrorMessage
-} from "./errorMessages";
+import {
+    templateMessages
+} from "./ErrorMessage";
 
 import { InputFieldGroup } from "./InputComponents";
+
+const emptyFieldErrorMessage = templateMessages.emptyFieldErrorMessage;
+const invalidPasswordErrorMessage = templateMessages.invalidPasswordErrorMessage;
+const invalidEmailErrorMessage = templateMessages.invalidEmailErrorMessage;
 
 const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
     // create states to store and check all the values of the Django setup
