@@ -25,13 +25,26 @@ const invalidPasswordErrorMessage = () =>
     "Password must have at least 8 characters, 1 uppercase letter, " +
     "1 lowercase letter, 1 special character and passwords must be equal.";
 
+// Used to explain the users that allowed email domains must be comma
+// separated, without spaces and must be in the format *.topleveldomain
+// where * is any string of characters and topleveldomain must have at
+// least 2 characters, i.e. .com, .br, .org, .uk, etc.
+
+const invalidAllowedEmailDomainsErrorMessage = () =>
+    "Invalid allowed email domains. The domains should be comma separated " +
+    "and without spaces. Each domain should be in the format " +
+    "*.topleveldomain where * is any string of characters and "+
+    "topleveldomain must have at least 2 characters, i.e. "+
+    ".com, .br, .org, .uk, etc.";
+
 // One object for templates in order to make exporting easier
 // But this can be changed in next releases.
 const templateMessages = {
     emptyFieldErrorMessage,
     invalidEmailErrorMessage,
     invalidIPAddressErrorMessage,
-    invalidPasswordErrorMessage
+    invalidPasswordErrorMessage,
+    invalidAllowedEmailDomainsErrorMessage
 };
 
 // A simple and elegant error component that is enough for the current

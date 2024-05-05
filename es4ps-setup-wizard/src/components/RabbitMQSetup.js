@@ -96,7 +96,13 @@ const RabbitMQSetup = ({ Config, ConfigUpdateHandler }) => {
             placeholder: "admin",
             inputHandler: setUsername,
             validFlag: validUsername,
-            errorMessage: emptyFieldErrorMessage('RabbitMQ User')
+            errorMessage: emptyFieldErrorMessage('RabbitMQ User'),
+            tooltipText: `The RabbitMQ user is necessary to protect the\n` +
+                         `RabbitMQ server from unauthorized access. It will\n` +
+                         `be used by all containers that will interact with\n` +
+                         `celery tasks — Django and Samba containers — to\n` +
+                         `create, update and delete users on samba ADDC\n` +
+                         `servers.`,
         },
         password1: {
             label: "RabbitMQ Password",
@@ -104,7 +110,10 @@ const RabbitMQSetup = ({ Config, ConfigUpdateHandler }) => {
             inputHandler: setPassword1,
             validFlag: true,
             errorMessage: "",
-            type: "password"
+            type: "password",
+            tooltipText: `The RabbitMQ password is necessary for the same\n` +
+                         `reason as the RabbitMQ user.`,
+            id: "rabbitmq-password",
         },
         password2: {
             label: "Confirm RabbitMQ Password",
@@ -112,14 +121,22 @@ const RabbitMQSetup = ({ Config, ConfigUpdateHandler }) => {
             inputHandler: setPassword2,
             validFlag: validPassword,
             errorMessage: invalidPasswordErrorMessage(),
-            type: "password"
+            type: "password",
         },
         vhost: {
             label: "RabbitMQ Virtual Host",
             placeholder: "myvhost",
             inputHandler: setVhost,
             validFlag: validVhost,
-            errorMessage: emptyFieldErrorMessage('RabbitMQ Virtual Host')
+            errorMessage: emptyFieldErrorMessage('RabbitMQ Virtual Host'),
+            tooltipText: `Virtual hosts in RabbitMQ are used to separate\n` +
+                         `different environments for different applications.\n` +
+                         `This is useful when you have multiple applications\n` +
+                         `running on the same RabbitMQ server and you want to\n` +
+                         `separate the queues, exchanges and bindings for each\n` +
+                         `one to avoid conflicts between them. For this release\n` +
+                         `only one vhost is necessary and it can bet set to\n` +
+                         `its suggested value myvhost.`,
         }
     };
 

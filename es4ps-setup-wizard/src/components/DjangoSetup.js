@@ -20,7 +20,8 @@ import { useState, useEffect } from "react";
 import { 
     isNotEmpty, 
     isEmailAddressValid, 
-    isPasswordValid 
+    isPasswordValid,
+    areAllowedEmailDomainsValid
 } from "./validators";
 
 import {
@@ -32,6 +33,7 @@ import { InputFieldGroup } from "./InputComponents";
 const emptyFieldErrorMessage = templateMessages.emptyFieldErrorMessage;
 const invalidPasswordErrorMessage = templateMessages.invalidPasswordErrorMessage;
 const invalidEmailErrorMessage = templateMessages.invalidEmailErrorMessage;
+const invalidAllowedEmailDomainsErrorMessage = templateMessages.invalidAllowedEmailDomainsErrorMessage;
 
 const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
     // create states to store and check all the values of the Django setup
@@ -78,10 +80,10 @@ const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
                 valid: isNotEmpty(FQDN)
             },
             allowedEmailDomains: {
-                value: isNotEmpty(allowedEmailDomains)
+                value: areAllowedEmailDomainsValid(allowedEmailDomains)
                        ? allowedEmailDomains
                        : "",
-                valid: isNotEmpty(allowedEmailDomains)
+                valid: areAllowedEmailDomainsValid(allowedEmailDomains)
             },
             smtpServer: {
                 value: isNotEmpty(smtpServer)
@@ -141,7 +143,12 @@ const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
             placeholder: "admin",
             inputHandler: setDjangoSuperuserName,
             validFlag: validDjangoSuperuserName,
-            errorMessage: emptyFieldErrorMessage("Django Superuser Username")
+            errorMessage: emptyFieldErrorMessage("Django Superuser Username"),
+            tooltipText: "The Django Superuser is the user that will be\n" +
+                          "created in the Django database to manage the\n" +
+                          "Django application as well as to create, update\n" +
+                          "and delete other users in the ES4PS platform\n" +
+                          "through the Django Admin interface."
         },
         password1: {
             label: "Django Superuser Password",
@@ -149,7 +156,11 @@ const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
             inputHandler: setPassword1,
             validFlag: true,
             errorMessage: "",
-            type: "password"
+            type: "password",
+            tooltipText: "Set the super password that allows you to manage\n" +
+                         "the domain users through the ES4PS platform\'s\n" +
+                         "Django Admin interface.",
+            id: "django-superuser-password"
         },
         password2: {
             label: "Django Superuser Password (confirm)",
@@ -164,14 +175,35 @@ const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
             placeholder: "es4ps.example.com",
             inputHandler: setFQDN,
             validFlag: validFQDN,
-            errorMessage: emptyFieldErrorMessage("ES4PS Fully Qualified Domain Name (FQDN)")
+            errorMessage: emptyFieldErrorMessage("ES4PS Fully Qualified Domain Name (FQDN)"),
+            tooltipText: "This is the field that represents the address that\n" +
+                         "the members of your organization will use to register\n" +
+                         "their users in the ES4PS platform (and its Samba Domain\n" +
+                         "Controller). You need to fill this field with a DNS\n" +
+                         "address that points to the IP address of the server\n" +
+                         "that hosts ES4PS containers composition. This DNS address\n" +
+                         "can be registered through a corporate DNS provider or\n" +
+                         "in your organization\'s internal DNS server. It it is\n" +
+                         "also possible to hardcode the resolution of this address\n" +
+                         "to the IP address of the server in the windows hosts file\n" +
+                         "located in C:\\Windows\\System32\\drivers\\etc\\hosts."
         },
         allowedEmailDomains: {
             label: "Allowed Email Domains (comma separated)",
             placeholder: "example.com,example.org",
             inputHandler: setAllowedEmailDomains,
             validFlag: validAllowedEmailDomains,
-            errorMessage: emptyFieldErrorMessage("Allowed Email Domains")
+            errorMessage: invalidAllowedEmailDomainsErrorMessage(),
+            tooltipText: "This field is used to restrict the email domains\n" +
+                         "that can be used to register users in the ES4PS.\n" +
+                         "Through this field it is possible to restrict the\n" +
+                         "registration of users only to your organization by\n" +
+                         "your organization email domain. If you want to allow\n" +
+                         "any user from anywhere to register in the ES4PS, you\n" +
+                         "can leave this field empty, although it is not\n" +
+                         "recommended since it go against ES4PS main purpose:\n" +
+                         "to allow only users from a certain organization to\n" +
+                         "register in the organization\'s domain controller."
         },
         // maybe in next releases smtpServer, smtpPort, smtpUsername and
         // smtpPassword will be replaced by django email services by
@@ -186,21 +218,39 @@ const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
             placeholder: "smtp.example.com",
             inputHandler: setSmtpServer,
             validFlag: validSmtpServer,
-            errorMessage: emptyFieldErrorMessage("SMTP Server")
+            errorMessage: emptyFieldErrorMessage("SMTP Server"),
+            tooltipText: "You should set the SMTP server as the name address\n" +
+                         "that the server of your e-mail provider uses to\n" +
+                         "allow their users to send e-mails. For microsoft\n" +
+                         "outlook, live and hotmail accounts, the SMTP server\n" +
+                         "is smtp-mail.outlook.com."
         },
         smtpPort: {
             label: "SMTP Port",
             placeholder: "587",
             inputHandler: setSmtpPort,
             validFlag: validSmtpPort,
-            errorMessage: emptyFieldErrorMessage("SMTP Port")
+            errorMessage: emptyFieldErrorMessage("SMTP Port"),
+            tooltipText: "This is the TCP port used by SMTP servers\n" +
+                         "to listen to incoming connections. The default\n" +
+                         "port for SMTP servers is 587, but some servers\n" +
+                         "may listen to other ports. You should check with\n" +
+                         "your e-mail provider the port that you should use.\n" +
+                         "For microsoft outlook, live and hotmail accounts,\n" +
+                         "the port is 587."
         },
         smtpUsername: {
             label: "SMTP Username",
             placeholder: "es4ps@example.com",
             inputHandler: setSmtpUsername,
             validFlag: validSmtpUsername,
-            errorMessage: invalidEmailErrorMessage()
+            errorMessage: invalidEmailErrorMessage(),
+            tooltipText: "This is simply the e-mail address that you use with\n" +
+                         "your e-mail provider to send and receive e-mails.\n" +
+                         "Some example of microsoft email addresses:\n" +
+                         "email@hotmail.com, email@live.com, email@outlook.com," +
+                         "etc."
+                         
         },
         smtpPassword: {
             label: "SMTP Password",
@@ -208,7 +258,9 @@ const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
             inputHandler: setSmtpPassword,
             validFlag: validSmtpPassword,
             errorMessage: emptyFieldErrorMessage("SMTP Password"),
-            type: "password"
+            type: "password",
+            tooltipText: "Your e-mail address password.",
+            id: "smtp-password"
         },
     };
     // as it is possible to see, the rendering code of this component

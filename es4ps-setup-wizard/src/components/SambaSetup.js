@@ -103,6 +103,9 @@ const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
             inputHandler: setHostname,
             validFlag: validHostname,
             errorMessage: emptyFieldErrorMessage("Samba Server Hostname"),
+            tooltipText: "The hostname of the Samba Server, e.g. es4psdc.\n" +
+                         "This is the name that will be used to identify the " +
+                         "server in the network."
         },
         ip: {
             label: "Samba Server IP Address",
@@ -110,6 +113,13 @@ const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
             inputHandler: setIp,
             validFlag: validIp,
             errorMessage: invalidIPAddressErrorMessage(),
+            tooltipText: "The IP address of the Computer that will host " +
+                         "the container composition.\nThis IP address " +
+                         "can be found by running `ip a sh` command in\n" +
+                         "the terminal if you are using a Linux machine.\n" +
+                         "If you are using a Windows machine, you can find " +
+                         "the IP address\nby running `ipconfig` in the Command " +
+                         "Prompt."
         },
         domain: {
             label: "Samba Server Domain Name",
@@ -117,6 +127,15 @@ const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
             inputHandler: setDomain,
             validFlag: validDomain,
             errorMessage: emptyFieldErrorMessage("Samba Server Domain Name"),
+            tooltipText: "The domain name of the Samba Server, e.g. dom.\n" +
+                         "This is the name that will be used to identify the\n" +
+                         "domain in the network and it is needed establish\n" +
+                         "a connection with the Windows clients and also to\n" +
+                         "make trust relationships between domains or forests.\n" +
+                         "Multiple domains support will be added in future releases\n" +
+                         "of the ES4PS platform, so the importance of this field\n" +
+                         "will be more evident."
+
         },
         realmSuffix: {
             label: "Samba Realm Suffix",
@@ -124,6 +143,10 @@ const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
             inputHandler: setRealmSuffix,
             validFlag: validRealmSuffix,
             errorMessage: emptyFieldErrorMessage("Samba Realm Suffix"),
+            tooltipText: "This is the domain suffix that together with the domain\n" +
+                         "name will form the realm of the Samba Server,\n" +
+                         "the string that must be input in the Windows clients\n" +
+                         "to make computers join the domain.\n"
         },
         password1: {
             label: "Samba Admin User Password",
@@ -132,6 +155,12 @@ const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
             validFlag: true,
             errorMessage: "",
             type: "password",
+            tooltipText: "The password for the Samba Administrator User.\n" +
+                         "Administrator is the user that the domain will ask\n" +
+                         "for its credentials (in Windows Clients Hosts)\n" +
+                         "whenever a person tries to add a computer to the\n" +
+                         "domain.\n",
+            id: "samba-password"
         },
         password2: {
             label: "Confirm Samba Admin User Password",

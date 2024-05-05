@@ -29,6 +29,12 @@ const isNotEmpty = (value) =>
 const isEmailAddressValid = (email) =>
     email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) !== null;
 
+const areAllowedEmailDomainsValid = (allowedEmailDomains) => (
+    allowedEmailDomains.match(
+        /^([\w-]+\.)+([\w]{2,})(,([\w-]+\.)+([\w]{2,}))*$|^$/i
+    )
+);
+
 const isIPAddressValid = (ip) =>
     ip.match(/^([0-9]{1,3}\.){3}[0-9]{1,3}$/) !== null;
 
@@ -55,5 +61,6 @@ export {
     isEmailAddressValid,
     isIPAddressValid,
     isPasswordValid,
+    areAllowedEmailDomainsValid,
     validConfig
 };

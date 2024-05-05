@@ -148,6 +148,12 @@ const SetupWizard = () => {
         }
     }, [CompositionResult]);
 
+    // this is a composition key to force react to re-render the 
+    // CreateES4PSContainersComposition component when the AllInOneConfig
+    // state is updated. This is necessary because the CreateES4PSContainersComposition
+    // component is being only rendered when the configuration is valid.
+    const [ compositionKey, setCompositionKey ] = useState(0);
+
     // this is the main useEffect of the SetupWizard component and it is
     // triggered whenever a field in the configuration of the containers is
     // updated. It will update the AllInOneConfig state with the new configuration
@@ -162,7 +168,9 @@ const SetupWizard = () => {
             samba: SambaConfig,
             django: DjangoConfig,
         };
-        setAllInOneConfig(newConfig);
+        setAllInOneConfig(() => (
+            newConfig
+        ));
         setValidRabbitMQConfig(validConfig(RabbitMQConfig));
         setValidSambaConfig(validConfig(SambaConfig));
         setValidDjangoConfig(validConfig(DjangoConfig));
@@ -171,6 +179,9 @@ const SetupWizard = () => {
                 validConfig(SambaConfig) &&
                 validConfig(DjangoConfig)
         );
+        setCompositionKey((prevKey) => (
+            validAllInOneConfig ? prevKey + 1 : prevKey
+        ));
     }, [RabbitMQConfig, SambaConfig, DjangoConfig]);
 
     return (
@@ -190,6 +201,7 @@ const SetupWizard = () => {
             />
             {validAllInOneConfig && (
                 <CreateES4PSContainersComposition
+                    key={compositionKey}
                     Config={AllInOneConfig}
                     ConfigUpdateHandler={setAllInOneConfig}
                     setCompositionResult={setCompositionResult}

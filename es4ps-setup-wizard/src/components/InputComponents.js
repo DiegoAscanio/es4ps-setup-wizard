@@ -74,24 +74,39 @@
 
 import { ErrorMessage } from "./ErrorMessage";
 
+import { Tooltip } from "react-tooltip";
+import "./tooltip.css";
+
 const InputField = ({ 
-    label, placeholder, inputHandler, validFlag, errorMessage, type="text"
-}) => (
-    <div className="form-group">
-        <label>{label}</label>
-        <input
-            type={type}
-            className="form-control"
-            placeholder={placeholder}
-            onChange = {
-                (e) => inputHandler(e.target.value)
+    id, label, placeholder, inputHandler, validFlag, errorMessage, type="text", tooltipText=""
+}) => {
+    return (
+        <div className="form-group">
+            <label>{label}</label>
+            <input
+                data-tooltip-id={id}
+                type={type}
+                className="form-control"
+                placeholder={placeholder}
+                onChange = {
+                    (e) => inputHandler(e.target.value)
+                }
+            />
+            { tooltipText &&
+                <Tooltip id={id} place="top">
+                    <div class="multiline-tooltip">
+                        {tooltipText.split("\n").map((line) => (
+                            <span>{line}</span>
+                        ))}
+                    </div>
+                </Tooltip>
             }
-        />
-        { !validFlag &&
-            <ErrorMessage message={errorMessage} />
-        }
+            { !validFlag &&
+                <ErrorMessage message={errorMessage} />
+            }
     </div>
-);
+    );
+};
 
 const InputFieldGroup = ({ inputFieldsMap }) => {
     return (
@@ -99,6 +114,11 @@ const InputFieldGroup = ({ inputFieldsMap }) => {
         {
             Object.keys(inputFieldsMap).map((key) => (
             <InputField
+                id={
+                    inputFieldsMap[key].id
+                    ? inputFieldsMap[key].id
+                    : key
+                }
                 label={inputFieldsMap[key].label}
                 placeholder={inputFieldsMap[key].placeholder}
                 inputHandler={inputFieldsMap[key].inputHandler}
@@ -108,6 +128,11 @@ const InputFieldGroup = ({ inputFieldsMap }) => {
                     inputFieldsMap[key].type
                         ? inputFieldsMap[key].type
                         : "text"
+                }
+                tooltipText={
+                    inputFieldsMap[key].tooltipText
+                        ? inputFieldsMap[key].tooltipText
+                        : ""
                 }
             />
             ))

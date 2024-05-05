@@ -1,0 +1,4 @@
+.multiline-tooltip {
+    display: flex;
+    flex-direction: column;
+}

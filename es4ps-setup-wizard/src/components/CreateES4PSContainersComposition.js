@@ -78,7 +78,9 @@ const downloadES4PSContainersComposition = (ProcessingConfig, ProcessingConfigHa
                 ...ProcessingConfig,
                 zippedFile: zippedFile
             };
-            ProcessingConfigHandler(newConfig);
+            ProcessingConfigHandler(() => (
+                newConfig
+            ));
             return functionPipeLine[
                 'downloadES4PSContainersComposition'
             ](newConfig, ProcessingConfigHandler);
@@ -104,7 +106,9 @@ const openFile = (ProcessingConfig, ProcessingConfigHandler) => {
             ...ProcessingConfig,
             openedFile: data
         };
-        ProcessingConfigHandler(newConfig);
+        ProcessingConfigHandler(() => (
+            newConfig
+        ));
         return functionPipeLine[
             'openFile'
         ](newConfig, ProcessingConfigHandler);
@@ -141,7 +145,9 @@ const loadZip = (ProcessingConfig, ProcessingConfigHandler) => {
             ...ProcessingConfig,
             loadedZip: zip
         };
-        ProcessingConfigHandler(newConfig);
+        ProcessingConfigHandler(() => (
+            newConfig
+        ));
         return functionPipeLine[
             'loadZip'
         ](newConfig, ProcessingConfigHandler);
@@ -162,7 +168,9 @@ const makeDotEnvFile = (ProcessingConfig, ProcessingConfigHandler) => {
         ...ProcessingConfig,
         dotEnv: dotEnv
     };
-    ProcessingConfigHandler(newConfig);
+    ProcessingConfigHandler(() => (
+        newConfig
+    ));
     // The next step in the pipeline is called
     return functionPipeLine[
         'makeDotEnvFile'
@@ -185,7 +193,9 @@ const addDotEnvToZipAndReZip = (ProcessingConfig, ProcessingConfigHandler) => {
         }
         // Here the pipeline is finished and the updated zip file
         // is set in the ProcessingConfig object.
-        ProcessingConfigHandler(newConfig);
+        ProcessingConfigHandler(() => (
+            newConfig
+        ));
     }).catch((error) => {
         console.error("Error generating the updated zip file");
         console.error(error);
@@ -219,7 +229,9 @@ const functionPipeLine = {
 const CreateES4PSContainersComposition = ({ Config, ConfigUpdateHandler, setCompositionResult }) => {
     const [ProcessingConfig, setProcessingConfig] = useState(Config);
     useEffect (() => {
-        ConfigUpdateHandler(ProcessingConfig);
+        ConfigUpdateHandler(() => (
+            ProcessingConfig
+        ));
         if (ProcessingConfig.finished) {
             setCompositionResult(ProcessingConfig.updatedZip);
         }
