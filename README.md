@@ -96,7 +96,7 @@ All of these procedures are available in the video below (CTRL + click to open i
 
 [![Running the setup wizard](./docs/img/setup-wizard.png)](https://youtu.be/-ymDxufMSNc?si=GFGq1qqZ9Mj8khlb)
 
-## ES4PS-containers
+## Brief Explanation about ES4PS-containers
 
 [ES4PS-containers](https://github.com/DiegoAscanio/es4ps-containers) are the core component of the ES4PS platform and they are
 responsible for bringing the plaftorm to life. For default there is an 
@@ -105,7 +105,10 @@ gets configured as the user fills the required fields in the setup wizard.
 
 So, for the purpose of clarification, it is possible to say that the ES4PS
 containers "exist" in the setup wizard for the user to configure them to
-run the ES4PS platform.
+run the ES4PS platform. When the user finishes the setup and click on the
+"generate containers composition" button, the zip file `es4ps-containers.zip`
+that "hosts" the containers properly set up will be available for the user to
+download.
 
 ### How to run the ES4PS platform
 
