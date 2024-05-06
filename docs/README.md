@@ -24,7 +24,7 @@ To run the setup wizard, you should access the following link:
 
 Then, you should fill in the required fields. Some fields present a tooltip
 that will help you to understand its purpose and how to fill its value. A
-brief description of each field is presented below:
+description of each field is presented below:
 
 - **RabbitMQ Setup Fields**:
     - **RabbitMQ User**: A user necessary to establish connections to the
