@@ -108,7 +108,7 @@ To add a Windows machine to the ES4PS Domain, you should follow the steps below:
     - For instance, the `es4psexampleuser` created in the **Registering a new user in the ES4PS platform** section can log in by typing `es4psexampleuser` in the username field and the password created in the registration process.
         - If you followed the password example in the registration process, the password should be `P@ssw0rdAB`.
 3. After typing the username and password, click on the arrow or press Enter to log in.
-4. After a few seconds the user will be greeted with a welcome message and the desktop will be shown.
+4. After a few seconds (or SEVERAL minutes) the user will be greeted with a welcome message and the desktop will be shown.
     - With that step completed you can congratulate yourself for setting up the ES4PS platform that will help your organization to manage its users (and computers in future releases) in a clever way!
 
 ## ES4PS-setup-wizard Useful Information
