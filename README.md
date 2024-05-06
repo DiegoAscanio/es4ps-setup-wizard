@@ -73,6 +73,16 @@ brief description of each field is presented below:
       the e-mail domains of your organization, separated by commas. For
       example, if your organization's e-mail domains are `example.com` and
       `example.org`, you should fill this field with `example.com,example.org`.
+    - **SMTP Server Hostname**: The hostname of the SMTP server that will
+      send e-mails to the users. It is recommended to use Microsoft's SMTP
+      Server (smtp-mail.outlook.com) as it supports STARTTLS encryption and
+      does not require additional settings to run, such as Gmail does.
+    - **SMTP Port**: The port of the SMTP server that will send e-mails.
+      The default port for STARTTLS encryption is 587.
+    - **SMTP Username**: The user of the SMTP server that will send e-mails. It is
+      recommended to use a Microsoft e-mail account (like @outlook.com,
+      @live.com, @hotmail.com).
+    - **SMTP Password**: The password bond to the SMTP username.
 
 After filling in all required fields, a generate containers composition button
 will be enabled. Click on it to create the zip file with the configured
