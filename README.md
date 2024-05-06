@@ -44,6 +44,35 @@ brief description of each field is presented below:
       Besides the importance of this IP address to the Samba Server itself,
       it is also important to all Windows machines that will join the ES4PS
       domain, as they will use this IP address as their DNS server.
+    - **Samba Server Domain Name**: The domain name that will identify the
+      Samba Server in the organization's network. It should be a single and
+      short word, like `dom`.
+    - **Samba Realm Suffix**: This is the domain suffix that together with
+      domain name will form the **Realm** of the Samba Server which is the
+      the string that an IT administrator should use to make a windows machine
+      join a domain.
+    - **Samba Admin User Password**: The password for the Samba Server
+      administrator user. This password should be strong and secure to
+      protect the Samba Server from unauthorized access as well to protect
+      user and computer data stored within it.
+
+- **Django Setup Fields**:
+    - **Django Superuser Username**: The username for the Django superuser.
+      This user will be able to access the Django admin interface to manage
+      the ES4PS platform and perform CRUD operations for the users (at the
+      current release).
+    - **Django Superuser Password**: The password for the Django superuser.
+      This password should be strong and secure to protect the Django admin
+      interface from unauthorized access.
+    - **ES4PS Fully Qualified Domain Name (FQDN)**: The website address that
+      end users will access to create their accounts and update some data of
+      their accounts such as name and password. An example of value for this
+      field is `es4ps.example.com`.
+    - **Allowed Email Domains**: The e-mail domains that are allowed to
+      create accounts on the ES4PS platform. This field should be filled with
+      the e-mail domains of your organization, separated by commas. For
+      example, if your organization's e-mail domains are `example.com` and
+      `example.org`, you should fill this field with `example.com,example.org`.
 
 After filling in all required fields, a generate containers composition button
 will be enabled. Click on it to create the zip file with the configured
