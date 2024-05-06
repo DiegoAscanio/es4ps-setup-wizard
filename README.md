@@ -106,7 +106,7 @@ gets configured as the user fills the required fields in the setup wizard.
 So, for the purpose of clarification, it is possible to say that the ES4PS
 containers "exist" in the setup wizard for the user to configure them to
 run the ES4PS platform. When the user finishes the setup and click on the
-"generate containers composition" button, the zip file `es4ps-containers.zip`
+`generate containers composition` button, the zip file `es4ps-containers.zip`
 that "hosts" the containers properly set up will be available for the user to
 download.
 
