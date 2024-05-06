@@ -23,7 +23,27 @@ To run the setup wizard, you should access the following link:
 [ES4PS Setup Wizard](https://diegoascanio.github.io/es4ps-setup-wizard/)
 
 Then, you should fill in the required fields. Some fields present a tooltip
-that will help you to understand its purpose and how to fill its value.
+that will help you to understand its purpose and how to fill its value. A
+brief description of each field is presented below:
+
+- **RabbitMQ Setup Fields**:
+    - **RabbitMQ User**: A user necessary to establish connections to the
+      RabbitMQ server in order to protect the ES4PS platform message
+      broker from unauthorized access.
+    - **RabbitMQ Password**: The password for the RabbitMQ user.
+    - **RabbitMQ Virtual Host**: The virtual host necessary to isolate the
+      ES4PS platform message broker from other services that might be running
+      on the same RabbitMQ server.
+
+- **Samba Setup Fields**:
+    - **Samba Server Hostname**: The name of the Samba Server that will
+      identify it in the organization's network.
+    - **Samba Server IP Address**: The IP address of the Samba Server. This
+      IP should be the same as the one established to the containers
+      composition host, i. e., the machine that will run the ES4PS platform.
+      Besides the importance of this IP address to the Samba Server itself,
+      it is also important to all Windows machines that will join the ES4PS
+      domain, as they will use this IP address as their DNS server.
 
 After filling in all required fields, a generate containers composition button
 will be enabled. Click on it to create the zip file with the configured
