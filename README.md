@@ -33,7 +33,7 @@ After the zip file is ready, a link to download the file will appear.
 Proceed to download it and extract the zip file to get the necessary files
 to run the ES4PS.
 
-All of these procedures are available in the video below:
+All of these procedures are available in the video below (CTRL + click to open in a new tab):
 
 [![Running the setup wizard](./docs/img/setup-wizard.png)](https://youtu.be/-ymDxufMSNc?si=GFGq1qqZ9Mj8khlb)
 
@@ -100,6 +100,10 @@ To add a Windows machine to the ES4PS Domain, you should follow the steps below:
     - Some tools, like FOG (Free Open-source Ghost), can automate this process so you can join the domain without any manual intervention. This automation is extremely useful in scenarios like computer labs, and a future ES4PS release will cover the integration between FOG and ES4PS.
 10. After a few minutes, you'll be greeted with a welcome message into the domain, and then, after a few seconds, you'll be asked to restart the computer. Proceed with that.
 
+If you'd like to watch a video showing these steps, you can do it by clicking on the link bellow (CTRL + click to open in a new tab):
+
+[![join-domain](./docs/img/join-domain.png)](https://youtu.be/jz6siqBeISo?si=LDht0y476ldt1SR5)
+
 ### Performing a user login in a computer at the ES4PS Domain
 
 1. After restarting the computer (and completing the domain join process), you should see the user login screen.
@@ -110,6 +114,18 @@ To add a Windows machine to the ES4PS Domain, you should follow the steps below:
 3. After typing the username and password, click on the arrow or press Enter to log in.
 4. After a few seconds (or SEVERAL minutes) the user will be greeted with a welcome message and the desktop will be shown.
     - With that step completed you can congratulate yourself for setting up the ES4PS platform that will help your organization to manage its users (and computers in future releases) in a clever way!
+
+A video showing the user login process in a computer at the ES4PS Domain is available by clicking on the link bellow (CTRL + click to open in a new tab):
+
+[![user-login](./docs/img/user-login.png)](https://www.youtube.com/watch?v=qrGbnNZRY2M)
+
+### Final considerations
+
+The ES4PS platform is a powerful tool that can help your organization to manage its users and computers in a clever way. This platform is under active development, and new features will be added in the future. 
+
+As the ES4PS platform is in its first release, it is a minimal viable product (MVP) that focus on enabling user authentication (and login) in Windows Computers within your organization's network.
+
+If you have any questions, suggestions, or want to contribute to the project, please contact us at [ascanio@cefetmg.br](mailto:ascanio@cefetmg.br).
 
 ## ES4PS-setup-wizard Useful Information
 
