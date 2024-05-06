@@ -1,11 +1,11 @@
-# ES4PS Setup Wizard
+## ES4PS Setup Wizard
 
 This is a wizard to set the Easy Samba for Public Services (ES4PS)
 containers composition up. This wizard will guide you through the process
 of setting up the necessary parameters for the ES4PS containers to work properly
 and get a zip file with the configured composition to run the ES4PS platform.
 
-## Prerequisites to run the setup wizard
+### Prerequisites to run the setup wizard
 
 - A SMTP STARTTLS capable e-mail account with its user and password to send e-mails.
     - We recommend using Microsoft e-mail accounts (like @outlook.com,
@@ -16,14 +16,73 @@ and get a zip file with the configured composition to run the ES4PS platform.
     - If you want to use a Gmail account, you should allow less secure apps
       to access your account and disable the two-factor authentication. This README will not show how to do that, but you can find this information on your favorite search engine.
 
-## How to run the setup wizard
+### How to run the setup wizard
 
 To run the setup wizard, you should access the following link:
 
 [ES4PS Setup Wizard](https://diegoascanio.github.io/es4ps-setup-wizard/)
 
 Then, you should fill in the required fields. Some fields present a tooltip
-that will help you to understand its purpose and how to fill its value.
+that will help you to understand its purpose and how to fill its value. A
+brief description of each field is presented below:
+
+- **RabbitMQ Setup Fields**:
+    - **RabbitMQ User**: A user necessary to establish connections to the
+      RabbitMQ server in order to protect the ES4PS platform message
+      broker from unauthorized access.
+    - **RabbitMQ Password**: The password for the RabbitMQ user.
+    - **RabbitMQ Virtual Host**: The virtual host necessary to isolate the
+      ES4PS platform message broker from other services that might be running
+      on the same RabbitMQ server.
+
+- **Samba Setup Fields**:
+    - **Samba Server Hostname**: The name of the Samba Server that will
+      identify it in the organization's network.
+    - **Samba Server IP Address**: The IP address of the Samba Server. This
+      IP should be the same as the one established to the containers
+      composition host, i. e., the machine that will run the ES4PS platform.
+      Besides the importance of this IP address to the Samba Server itself,
+      it is also important to all Windows machines that will join the ES4PS
+      domain, as they will use this IP address as their DNS server.
+    - **Samba Server Domain Name**: The domain name that will identify the
+      Samba Server in the organization's network. It should be a single and
+      short word, like `dom`.
+    - **Samba Realm Suffix**: This is the domain suffix that together with
+      domain name will form the **Realm** of the Samba Server which is the
+      the string that an IT administrator should use to make a windows machine
+      join a domain.
+    - **Samba Admin User Password**: The password for the Samba Server
+      administrator user. This password should be strong and secure to
+      protect the Samba Server from unauthorized access as well to protect
+      user and computer data stored within it.
+
+- **Django Setup Fields**:
+    - **Django Superuser Username**: The username for the Django superuser.
+      This user will be able to access the Django admin interface to manage
+      the ES4PS platform and perform CRUD operations for the users (at the
+      current release).
+    - **Django Superuser Password**: The password for the Django superuser.
+      This password should be strong and secure to protect the Django admin
+      interface from unauthorized access.
+    - **ES4PS Fully Qualified Domain Name (FQDN)**: The website address that
+      end users will access to create their accounts and update some data of
+      their accounts such as name and password. An example of value for this
+      field is `es4ps.example.com`.
+    - **Allowed Email Domains**: The e-mail domains that are allowed to
+      create accounts on the ES4PS platform. This field should be filled with
+      the e-mail domains of your organization, separated by commas. For
+      example, if your organization's e-mail domains are `example.com` and
+      `example.org`, you should fill this field with `example.com,example.org`.
+    - **SMTP Server Hostname**: The hostname of the SMTP server that will
+      send e-mails to the users. It is recommended to use Microsoft's SMTP
+      Server (smtp-mail.outlook.com) as it supports STARTTLS encryption and
+      does not require additional settings to run, such as Gmail does.
+    - **SMTP Port**: The port of the SMTP server that will send e-mails.
+      The default port for STARTTLS encryption is 587.
+    - **SMTP Username**: The user of the SMTP server that will send e-mails. It is
+      recommended to use a Microsoft e-mail account (like @outlook.com,
+      @live.com, @hotmail.com).
+    - **SMTP Password**: The password bond to the SMTP username.
 
 After filling in all required fields, a generate containers composition button
 will be enabled. Click on it to create the zip file with the configured
@@ -33,32 +92,58 @@ After the zip file is ready, a link to download the file will appear.
 Proceed to download it and extract the zip file to get the necessary files
 to run the ES4PS.
 
-All of these procedures are available in the video below:
+All of these procedures are available in the video below (CTRL + click to open in a new tab):
 
 [![Running the setup wizard](./docs/img/setup-wizard.png)](https://youtu.be/-ymDxufMSNc?si=GFGq1qqZ9Mj8khlb)
 
-## How to run the ES4PS platform
+## Brief Explanation about ES4PS-containers
 
-### Requirements
+[ES4PS-containers](https://github.com/DiegoAscanio/es4ps-containers) are the core component of the ES4PS platform and they are
+responsible for bringing the plaftorm to life. For default there is an 
+unconfigured es4ps-containers-composition within the setup wizard that
+gets configured as the user fills the required fields in the setup wizard.
+
+So, for the purpose of clarification, it is possible to say that the ES4PS
+containers "exist" in the setup wizard for the user to configure them to
+run the ES4PS platform. When the user finishes the setup and click on the
+`generate containers composition` button, the zip file `es4ps-containers.zip`
+that "hosts" the containers properly set up will be available for the user to
+download.
+
+### How to run the ES4PS platform
+
+#### Requirements
 
 To run the ES4PS platform, you should have docker and docker-compose installed. Follow the [docker instructions](https://docs.docker.com/engine/install/) appropriate to your distro to install the docker engine and [these instructions](https://docs.docker.com/compose/install/linux/) to install docker-compose.
 
 If you are using a Windows or Mac OS system, it is strongly recommended that you use the [docker desktop](https://docs.docker.com/desktop/) to install both the docker engine and docker-compose, as well as GUI tools that can help you manage the composition of containers for ES4PS or any other containers that you might want to run.
 
-### Running the ES4PS platform in a Linux distro
+#### Running the ES4PS platform in a Linux distro
 
 Go to the folder where you extracted the zip file generated by the setup wizard and run the following commands:
 
 ```bash
-bash build.sh # This will build the containers # This will build the containers and should be run only once
-bash start.sh # This will start the containers
+bash build.sh ## This will build the containers # This will build the containers and should be run only once
+bash start.sh ## This will start the containers
 ```
 
-After running these commands, the ES4PS platform should be up and running. You can access the platform by browsing the address defined as **ES4PS Fully Qualified Domain Name (FQDN)** in the setup wizard's Django setup section. Add an exception in your browser to access the platform, as the certificates are self-signed and not recognized by the browser:
+#### Running the ES4PS platform in a Windows system
+
+Go to the folder where you extracted the zip file generated by the setup wizard and run the following commands:
+
+```cmd
+
+build.bat ## This will build the containers and should be run only once
+start.bat ## This will start the containers
+```
+
+#### ES4PS plaform usage
+
+After running the commands to build and start the ES4PS platform, everything should be up and running. You can access the platform by browsing the address defined as **ES4PS Fully Qualified Domain Name (FQDN)** in the setup wizard's Django setup section. Add an exception in your browser to access the platform, as the certificates are self-signed and not recognized by the browser:
 
 ![Add exception in browser and access the platform](./docs/img/access-the-platform.gif)
 
-### Registering a new user in the ES4PS platform
+#### Registering a new user in the ES4PS platform
 
 Any user within your organization should access the platform website to create their accounts and execute the following steps:
 
@@ -79,7 +164,7 @@ Now you'll see the user POV when creating its account in the ES4PS platform (and
 
 ![Create an account in the ES4PS platform](./docs/img/register-a-new-user.gif)
 
-### Adding a computer to the ES4PS Domain
+#### Adding a computer to the ES4PS Domain
 
 To add a Windows machine to the ES4PS Domain, you should follow the steps below:
 
@@ -100,7 +185,11 @@ To add a Windows machine to the ES4PS Domain, you should follow the steps below:
     - Some tools, like FOG (Free Open-source Ghost), can automate this process so you can join the domain without any manual intervention. This automation is extremely useful in scenarios like computer labs, and a future ES4PS release will cover the integration between FOG and ES4PS.
 10. After a few minutes, you'll be greeted with a welcome message into the domain, and then, after a few seconds, you'll be asked to restart the computer. Proceed with that.
 
-### Performing a user login in a computer at the ES4PS Domain
+If you'd like to watch a video showing these steps, you can do it by clicking on the link bellow (CTRL + click to open in a new tab):
+
+[![join-domain](./docs/img/join-domain.png)](https://youtu.be/jz6siqBeISo?si=LDht0y476ldt1SR5)
+
+#### Performing a user login in a computer at the ES4PS Domain
 
 1. After restarting the computer (and completing the domain join process), you should see the user login screen.
     - Any user self-registered within the ES4PS platform can log in to the computer now.
@@ -108,10 +197,22 @@ To add a Windows machine to the ES4PS Domain, you should follow the steps below:
     - For instance, the `es4psexampleuser` created in the **Registering a new user in the ES4PS platform** section can log in by typing `es4psexampleuser` in the username field and the password created in the registration process.
         - If you followed the password example in the registration process, the password should be `P@ssw0rdAB`.
 3. After typing the username and password, click on the arrow or press Enter to log in.
-4. After a few seconds the user will be greeted with a welcome message and the desktop will be shown.
+4. After a few seconds (or SEVERAL minutes) the user will be greeted with a welcome message and the desktop will be shown.
     - With that step completed you can congratulate yourself for setting up the ES4PS platform that will help your organization to manage its users (and computers in future releases) in a clever way!
 
-## ES4PS-setup-wizard Useful Information
+A video showing the user login process in a computer at the ES4PS Domain is available by clicking on the link bellow (CTRL + click to open in a new tab):
+
+[![user-login](./docs/img/user-login.png)](https://www.youtube.com/watch?v=qrGbnNZRY2M)
+
+#### Final considerations
+
+The ES4PS platform is a powerful tool that can help your organization to manage its users and computers in a clever way. This platform is under active development, and new features will be added in the future. 
+
+As the ES4PS platform is in its first release, it is a minimal viable product (MVP) that focus on enabling user authentication (and login) in Windows Computers within your organization's network.
+
+If you have any questions, suggestions, or want to contribute to the project, please contact us at [ascanio@cefetmg.br](mailto:ascanio@cefetmg.br).
+
+### ES4PS-setup-wizard Useful Information
 
 This project is a pure react application that uses the `create-react-app`
 boilerplate to create a setup wizard for the ES4PS project. 
