@@ -163,6 +163,8 @@ For any users and hosts within your network that can't access the ES4PS plaftorm
 
 And lastly but not least, users (hosts) within your network that are not willing to edit their hosts file can set their machines to use the DNS server provided by Samba AD/DC server with the server's IP address.
 
+Pay attention to the fact that the settings above are only necessary if you filled the **ES4PS Fully Qualified Domain Name (FQDN)** field in the setup wizard with a domain that doesn't exist in the internet (or in your local network's DNS server). For an already resolvable domain, these steps are not necessary.
+
 #### Registering a new user in the ES4PS platform
 
 Any user within your organization should access the platform website to create their accounts and execute the following steps:
