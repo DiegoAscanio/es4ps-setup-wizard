@@ -159,10 +159,8 @@ ${SERVER_IP_ADDRESS} ${ES4PS_FQDN}
 
 where `${SERVER_IP_ADDRESS}` is the IP address of the machine that is running the ES4PS platform (i.e, 192.168.0.100) and `${ES4PS_FQDN}` is the **ES4PS Fully Qualified Domain Name (FQDN)** you filled in the setup wizard (i.e. `es4ps.example.com`).
 
-For any users and hosts within your network that can't access the ES4PS plaftorm, they can solve this issue by editing their hosts file as well. For the ES4PS domain computers it will not be necessary to edit the hosts file, as they will use the ES4PS DNS server and the `ES4PS_FQDN` will be resolved to the correct IP address by samba internal DNS server.
-
-And lastly but not least, users (hosts) within your network that are not willing to edit their hosts file can set their machines to use the DNS server provided by Samba AD/DC server with the server's IP address.
-
+For any users and hosts within your network that can't access the ES4PS plaftorm, they can solve this issue by editing their hosts file as well.
+ 
 Pay attention to the fact that the settings above are only necessary if you filled the **ES4PS Fully Qualified Domain Name (FQDN)** field in the setup wizard with a domain that doesn't exist in the internet (or in your local network's DNS server). For an already resolvable domain, these steps are not necessary.
 
 #### Registering a new user in the ES4PS platform
