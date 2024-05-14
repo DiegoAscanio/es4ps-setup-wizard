@@ -13,7 +13,7 @@
  *      each div form-group manually, we can use the InputFieldGroup
  *      component to receive a map of them and render all the input fields
  *      in a loop.
- *  Maybe in next releases of the ES4PS platform these components can be
+ *  Maybe in next releases of the ES4All platform these components can be
  *  refactored to a single and generic component that is able to receive
  *  any kind of inputs, generate automatic states and useEffect hooks
  *  for them.
@@ -99,11 +99,11 @@ const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
     const inputFieldsMap = {
         hostname: {
             label: "Samba Server Hostname",
-            placeholder: "es4psdc",
+            placeholder: "es4alldc",
             inputHandler: setHostname,
             validFlag: validHostname,
             errorMessage: emptyFieldErrorMessage("Samba Server Hostname"),
-            tooltipText: "The hostname of the Samba Server, e.g. es4psdc.\n" +
+            tooltipText: "The hostname of the Samba Server, e.g. es4alldc.\n" +
                          "This is the name that will be used to identify the " +
                          "server in the network."
         },
@@ -133,13 +133,13 @@ const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
                          "a connection with the Windows clients and also to\n" +
                          "make trust relationships between domains or forests.\n" +
                          "Multiple domains support will be added in future releases\n" +
-                         "of the ES4PS platform, so the importance of this field\n" +
+                         "of the ES4All platform, so the importance of this field\n" +
                          "will be more evident."
 
         },
         realmSuffix: {
             label: "Samba Realm Suffix",
-            placeholder: "es4ps.local",
+            placeholder: "es4all.local",
             inputHandler: setRealmSuffix,
             validFlag: validRealmSuffix,
             errorMessage: emptyFieldErrorMessage("Samba Realm Suffix"),
@@ -179,7 +179,7 @@ const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
                 Samba is a free and open-source software suite that provides
                 file, print and active directory / domain controller services
                 such as user authentication and authorization for Microsoft
-                Windows clients. For that reason, samba is the core of the ES4PS
+                Windows clients. For that reason, samba is the core of the ES4All
                 platform to authenticate users in their Windows machines.
             </p>
             <p>
@@ -187,8 +187,8 @@ const SambaSetup = ({ Config, ConfigUpdateHandler }) => {
                 an IP address, a domain name, a realm suffix to build a samba
                 realm and a password for the samba admin user. A realm is a set
                 of users, groups, and others identified by a domain name
-                (example: DOM) and a domain suffix (example: ES4PS.LOCAL). So,
-                for the current example, the realm would be DOM.ES4PS.LOCAL. If
+                (example: DOM) and a domain suffix (example: ES4All.LOCAL). So,
+                for the current example, the realm would be DOM.ES4All.LOCAL. If
                 you are not sure about the inputs you can use the suggested
                 values when available.
             </p>

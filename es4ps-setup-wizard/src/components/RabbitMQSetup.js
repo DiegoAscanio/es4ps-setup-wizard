@@ -48,7 +48,7 @@ const RabbitMQSetup = ({ Config, ConfigUpdateHandler }) => {
      * the queues, exchanges and bindings for each one to avoid
      * conflicts between them.
      *
-     * In this ES4PS release only one queue is used, so only
+     * In this ES4All release only one queue is used, so only
      * one vhost (or none at all) is needed. But it is a good
      * practice to use vhosts to separate the environments.
      *
@@ -150,7 +150,7 @@ const RabbitMQSetup = ({ Config, ConfigUpdateHandler }) => {
             </p>
             <p>
                 It is used by celery to manage task queues and distribute these
-                tasks to workers which will execute them. ES4PS uses celery to
+                tasks to workers which will execute them. ES4All uses celery to
                 create, update and delete users on samba servers (each one will
                 have a worker assigned to execute these tasks). So that's why
                 you need to have RabbitMQ installed and running.

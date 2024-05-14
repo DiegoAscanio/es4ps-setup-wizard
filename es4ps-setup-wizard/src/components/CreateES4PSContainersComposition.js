@@ -90,7 +90,7 @@ const downloadES4PSContainersComposition = (ProcessingConfig, ProcessingConfigHa
         });;
 
     }).catch((error) => {
-        console.error("Error downloading ES4PS Containers Composition");
+        console.error("Error downloading ES4ALL Containers Composition");
         console.error(error);
     });
     // If the promise was not fulfilled, the catch block is called

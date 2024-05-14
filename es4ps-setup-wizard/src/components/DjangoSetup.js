@@ -147,7 +147,7 @@ const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
             tooltipText: "The Django Superuser is the user that will be\n" +
                           "created in the Django database to manage the\n" +
                           "Django application as well as to create, update\n" +
-                          "and delete other users in the ES4PS platform\n" +
+                          "and delete other users in the ES4All platform\n" +
                           "through the Django Admin interface."
         },
         password1: {
@@ -158,7 +158,7 @@ const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
             errorMessage: "",
             type: "password",
             tooltipText: "Set the super password that allows you to manage\n" +
-                         "the domain users through the ES4PS platform\'s\n" +
+                         "the domain users through the ES4All platform\'s\n" +
                          "Django Admin interface.",
             id: "django-superuser-password"
         },
@@ -171,17 +171,17 @@ const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
             type: "password"
         },
         FQDN: {
-            label: "ES4PS Fully Qualified Domain Name (FQDN)",
-            placeholder: "es4ps.example.com",
+            label: "ES4All Fully Qualified Domain Name (FQDN)",
+            placeholder: "es4all.example.com",
             inputHandler: setFQDN,
             validFlag: validFQDN,
-            errorMessage: emptyFieldErrorMessage("ES4PS Fully Qualified Domain Name (FQDN)"),
+            errorMessage: emptyFieldErrorMessage("ES4All Fully Qualified Domain Name (FQDN)"),
             tooltipText: "This is the field that represents the address that\n" +
                          "the members of your organization will use to register\n" +
-                         "their users in the ES4PS platform (and its Samba Domain\n" +
+                         "their users in the ES4All platform (and its Samba Domain\n" +
                          "Controller). You need to fill this field with a DNS\n" +
                          "address that points to the IP address of the server\n" +
-                         "that hosts ES4PS containers composition. This DNS address\n" +
+                         "that hosts ES4All containers composition. This DNS address\n" +
                          "can be registered through a corporate DNS provider or\n" +
                          "in your organization\'s internal DNS server. It it is\n" +
                          "also possible to hardcode the resolution of this address\n" +
@@ -195,13 +195,13 @@ const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
             validFlag: validAllowedEmailDomains,
             errorMessage: invalidAllowedEmailDomainsErrorMessage(),
             tooltipText: "This field is used to restrict the email domains\n" +
-                         "that can be used to register users in the ES4PS.\n" +
+                         "that can be used to register users in the ES4All.\n" +
                          "Through this field it is possible to restrict the\n" +
                          "registration of users only to your organization by\n" +
                          "your organization email domain. If you want to allow\n" +
-                         "any user from anywhere to register in the ES4PS, you\n" +
+                         "any user from anywhere to register in the ES4All, you\n" +
                          "can leave this field empty, although it is not\n" +
-                         "recommended since it go against ES4PS main purpose:\n" +
+                         "recommended since it go against ES4All main purpose:\n" +
                          "to allow only users from a certain organization to\n" +
                          "register in the organization\'s domain controller."
         },
@@ -241,7 +241,7 @@ const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
         },
         smtpUsername: {
             label: "SMTP Username",
-            placeholder: "es4ps@example.com",
+            placeholder: "es4all@example.com",
             inputHandler: setSmtpUsername,
             validFlag: validSmtpUsername,
             errorMessage: invalidEmailErrorMessage(),
@@ -272,8 +272,8 @@ const DjangoSetup = ({ Config, ConfigUpdateHandler }) => {
             <p>
                 Django is a high-level Python web framework that encourages
                 rapid development and clean, pragmatic design. It is used in
-                ES4PS to manage users operations (creation, deletion, retrieval,
-                etc.). allowing users of an enterprise which uses ES4PS to
+                ES4All to manage users operations (creation, deletion, retrieval,
+                etc.). allowing users of an enterprise which uses ES4All to
                 self register and have their accounts propagated to the
                 ESP4S Samba AD-DC Server through celery tasks.
             </p>

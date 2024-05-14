@@ -161,7 +161,7 @@ where `${SERVER_IP_ADDRESS}` is the IP address of the machine that is running th
 
 For any users and hosts within your network that can't access the ES4PS plaftorm, they can solve this issue by editing their hosts file as well.
  
-Pay attention to the fact that the settings above are only necessary if you filled the **ES4PS Fully Qualified Domain Name (FQDN)** field in the setup wizard with a domain that doesn't exist in the internet (or in your local network's DNS server). For an already resolvable domain, these steps are not necessary.
+Pay attention to the fact that the settings above are only necessary if you filled the **ES4PS Fully Qualified Domain Name (FQDN)** field in the setup wizard with a domain that doesn't exist in the internet (or in your local network's DNS server). For an already resolvable domain, these steps are not necessary. Future releases of ES4PS platform may provide subdomains within its own public domain that those who wants to use ES4PS can register for their organizations.
 
 #### Registering a new user in the ES4PS platform
 

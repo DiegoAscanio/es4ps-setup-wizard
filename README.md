@@ -1,9 +1,9 @@
-## ES4PS Setup Wizard
+## ES4All Setup Wizard
 
-This is a wizard to set the Easy Samba for Public Services (ES4PS)
+This is a wizard to set the Easy Samba for All (ES4All)
 containers composition up. This wizard will guide you through the process
-of setting up the necessary parameters for the ES4PS containers to work properly
-and get a zip file with the configured composition to run the ES4PS platform.
+of setting up the necessary parameters for the ES4All containers to work properly
+and get a zip file with the configured composition to run the ES4All platform.
 
 ### Prerequisites to run the setup wizard
 
@@ -20,7 +20,7 @@ and get a zip file with the configured composition to run the ES4PS platform.
 
 To run the setup wizard, you should access the following link:
 
-[ES4PS Setup Wizard](https://diegoascanio.github.io/es4ps-setup-wizard/)
+[ES4All Setup Wizard](https://diegoascanio.github.io/es4ps-setup-wizard/)
 
 Then, you should fill in the required fields. Some fields present a tooltip
 that will help you to understand its purpose and how to fill its value. A
@@ -28,11 +28,11 @@ description of each field is presented below:
 
 - **RabbitMQ Setup Fields**:
     - **RabbitMQ User**: A user necessary to establish connections to the
-      RabbitMQ server in order to protect the ES4PS platform message
+      RabbitMQ server in order to protect the ES4All platform message
       broker from unauthorized access.
     - **RabbitMQ Password**: The password for the RabbitMQ user.
     - **RabbitMQ Virtual Host**: The virtual host necessary to isolate the
-      ES4PS platform message broker from other services that might be running
+      ES4All platform message broker from other services that might be running
       on the same RabbitMQ server.
 
 - **Samba Setup Fields**:
@@ -40,9 +40,9 @@ description of each field is presented below:
       identify it in the organization's network.
     - **Samba Server IP Address**: The IP address of the Samba Server. This
       IP should be the same as the one established to the containers
-      composition host, i. e., the machine that will run the ES4PS platform.
+      composition host, i. e., the machine that will run the ES4All platform.
       Besides the importance of this IP address to the Samba Server itself,
-      it is also important to all Windows machines that will join the ES4PS
+      it is also important to all Windows machines that will join the ES4All
       domain, as they will use this IP address as their DNS server.
     - **Samba Server Domain Name**: The domain name that will identify the
       Samba Server in the organization's network. It should be a single and
@@ -59,17 +59,17 @@ description of each field is presented below:
 - **Django Setup Fields**:
     - **Django Superuser Username**: The username for the Django superuser.
       This user will be able to access the Django admin interface to manage
-      the ES4PS platform and perform CRUD operations for the users (at the
+      the ES4All platform and perform CRUD operations for the users (at the
       current release).
     - **Django Superuser Password**: The password for the Django superuser.
       This password should be strong and secure to protect the Django admin
       interface from unauthorized access.
-    - **ES4PS Fully Qualified Domain Name (FQDN)**: The website address that
+    - **ES4All Fully Qualified Domain Name (FQDN)**: The website address that
       end users will access to create their accounts and update some data of
       their accounts such as name and password. An example of value for this
-      field is `es4ps.example.com`.
+      field is `es4all.example.com`.
     - **Allowed Email Domains**: The e-mail domains that are allowed to
-      create accounts on the ES4PS platform. This field should be filled with
+      create accounts on the ES4All platform. This field should be filled with
       the e-mail domains of your organization, separated by commas. For
       example, if your organization's e-mail domains are `example.com` and
       `example.org`, you should fill this field with `example.com,example.org`.
@@ -90,35 +90,35 @@ composition.
 
 After the zip file is ready, a link to download the file will appear.
 Proceed to download it and extract the zip file to get the necessary files
-to run the ES4PS.
+to run the ES4All.
 
 All of these procedures are available in the video below (CTRL + click to open in a new tab):
 
 [![Running the setup wizard](./docs/img/setup-wizard.png)](https://youtu.be/-ymDxufMSNc?si=GFGq1qqZ9Mj8khlb)
 
-## Brief Explanation about ES4PS-containers
+## Brief Explanation about ES4All-containers
 
-[ES4PS-containers](https://github.com/DiegoAscanio/es4ps-containers) are the core component of the ES4PS platform and they are
+[ES4All-containers](https://github.com/DiegoAscanio/es4ps-containers) are the core component of the ES4All platform and they are
 responsible for bringing the plaftorm to life. For default there is an 
-unconfigured es4ps-containers-composition within the setup wizard that
+unconfigured es4all-containers-composition within the setup wizard that
 gets configured as the user fills the required fields in the setup wizard.
 
-So, for the purpose of clarification, it is possible to say that the ES4PS
+So, for the purpose of clarification, it is possible to say that the ES4All
 containers "exist" in the setup wizard for the user to configure them to
-run the ES4PS platform. When the user finishes the setup and click on the
+run the ES4All platform. When the user finishes the setup and click on the
 `generate containers composition` button, the zip file `es4ps-containers.zip`
 that "hosts" the containers properly set up will be available for the user to
 download.
 
-### How to run the ES4PS platform
+### How to run the ES4All platform
 
 #### Requirements
 
-To run the ES4PS platform, you should have a Linux host with  docker and docker-compose installed. Follow the [docker instructions](https://docs.docker.com/engine/install/) appropriate to your distro to install the docker engine and [these instructions](https://docs.docker.com/compose/install/linux/) to install docker-compose.
+To run the ES4All platform, you should have a Linux host with  docker and docker-compose installed. Follow the [docker instructions](https://docs.docker.com/engine/install/) appropriate to your distro to install the docker engine and [these instructions](https://docs.docker.com/compose/install/linux/) to install docker-compose.
 
-Unfortunately, the ES4PS platform is not supported in Windows and MacOS systems at the moment, as docker in these systems does not support the `host` network mode, which is necessary to run the Samba AD/DC server. You could run the ES4PS platform in a Linux virtual machine in these systems, but it is not recommended due to performance issues.
+Unfortunately, the ES4All platform is not supported in Windows and MacOS systems at the moment, as docker in these systems does not support the `host` network mode, which is necessary to run the Samba AD/DC server. You could run the ES4All platform in a Linux virtual machine in these systems, but it is not recommended due to performance issues.
 
-#### Running the ES4PS platform in a Linux distro
+#### Running the ES4All platform in a Linux distro
 
 As the samba container require the `host` network mode to run as well as the `privileged` mode, ensure that your user has the necessary permissions to run docker commands. You can do this by adding your user to the `docker` group:
 
@@ -126,7 +126,7 @@ As the samba container require the `host` network mode to run as well as the `pr
 sudo usermod -aG docker $USER
 ```
 
-After adding your user to the `docker` group, log out and log in again to apply the changes. Now you're able to build and run the ES4PS platform.
+After adding your user to the `docker` group, log out and log in again to apply the changes. Now you're able to build and run the ES4All platform.
 
 To do so, go to the folder where you extracted the zip file generated by the setup wizard and run the following commands:
 
@@ -135,39 +135,39 @@ bash build.sh ## This will build the containers # This will build the containers
 bash start.sh ## This will start the containers
 ```
 
-#### ES4PS plaform usage
+#### ES4All platform usage
 
-After running the commands to build and start the ES4PS platform, everything should be up and running. You can access the platform by browsing the address defined as **ES4PS Fully Qualified Domain Name (FQDN)** in the setup wizard's Django setup section. Add an exception in your browser to access the platform, as the certificates are self-signed and not recognized by the browser:
+After running the commands to build and start the ES4All platform, everything should be up and running. You can access the platform by browsing the address defined as **ES4All Fully Qualified Domain Name (FQDN)** in the setup wizard's Django setup section. Add an exception in your browser to access the platform, as the certificates are self-signed and not recognized by the browser:
 
 ![Add exception in browser and access the platform](./docs/img/access-the-platform.gif)
 
-If you entered the **ES4PS Fully Qualified Domain Name (FQDN)** as a domain that doesn't exist in the internet (or in your local network's DNS server) such as `es4ps.example.com`, you should add an entry in your OS hosts file bonding this domain to the IP address of the machine that is running the ES4PS platform, otherwise, your browser will always show a **site not found** error.
+If you entered the **ES4All Fully Qualified Domain Name (FQDN)** as a domain that doesn't exist in the internet (or in your local network's DNS server) such as `es4all.example.com`, you should add an entry in your OS hosts file bonding this domain to the IP address of the machine that is running the ES4All platform, otherwise, your browser will always show a **site not found** error.
 
 To do so in a Linux distro, you should run the following command:
 
 ```bash
-sudo echo "${SERVER_IP_ADDRESS} ${ES4PS_FQDN}" >> /etc/hosts
+sudo echo "${SERVER_IP_ADDRESS} ${ES4All_FQDN}" >> /etc/hosts
 ```
 
-where `${SERVER_IP_ADDRESS}` is the IP address of the machine that is running the ES4PS platform (i.e, 192.168.0.100) and `${ES4PS_FQDN}` is the **ES4PS Fully Qualified Domain Name (FQDN)** you filled in the setup wizard (i.e. `es4ps.example.com`).
+where `${SERVER_IP_ADDRESS}` is the IP address of the machine that is running the ES4All platform (i.e, 192.168.0.100) and `${ES4All_FQDN}` is the **ES4All Fully Qualified Domain Name (FQDN)** you filled in the setup wizard (i.e. `es4all.example.com`).
 
 In a Windows machine, you should open the file `C:\Windows\System32\drivers\etc\hosts` with a text editor with administrator privileges and add the following line:
 
 ```
-${SERVER_IP_ADDRESS} ${ES4PS_FQDN}
+${SERVER_IP_ADDRESS} ${ES4All_FQDN}
 ```
 
-where `${SERVER_IP_ADDRESS}` is the IP address of the machine that is running the ES4PS platform (i.e, 192.168.0.100) and `${ES4PS_FQDN}` is the **ES4PS Fully Qualified Domain Name (FQDN)** you filled in the setup wizard (i.e. `es4ps.example.com`).
+where `${SERVER_IP_ADDRESS}` is the IP address of the machine that is running the ES4All platform (i.e, 192.168.0.100) and `${ES4All_FQDN}` is the **ES4All Fully Qualified Domain Name (FQDN)** you filled in the setup wizard (i.e. `es4all.example.com`).
 
-For any users and hosts within your network that can't access the ES4PS plaftorm, they can solve this issue by editing their hosts file as well.
+For any users and hosts within your network that can't access the ES4All platform, they can solve this issue by editing their hosts file as well.
  
-Pay attention to the fact that the settings above are only necessary if you filled the **ES4PS Fully Qualified Domain Name (FQDN)** field in the setup wizard with a domain that doesn't exist in the internet (or in your local network's DNS server). For an already resolvable domain, these steps are not necessary.
+Pay attention to the fact that the settings above are only necessary if you filled the **ES4All Fully Qualified Domain Name (FQDN)** field in the setup wizard with a domain that doesn't exist in the internet (or in your local network's DNS server). For an already resolvable domain, these steps are not necessary. Future releases of ES4All platform may provide subdomains within its own public domain that those who wants to use ES4All can register for their organizations.
 
-#### Registering a new user in the ES4PS platform
+#### Registering a new user in the ES4All platform
 
 Any user within your organization should access the platform website to create their accounts and execute the following steps:
 
-1. Click the `register new user` button to create a new account on the ES4PS FQDN page (e.g., https://es4ps.example.com).
+1. Click the `register new user` button to create a new account on the ES4All FQDN page (e.g., https://es4all.example.com).
 2. Fill the required fields and click on register.
     1. The password, that should match the following requirements:
         - At least ten characters long
@@ -176,66 +176,66 @@ Any user within your organization should access the platform website to create t
         - At least one number
         - At least one special character
         - Example: `P@ssw0rdAB`
-    - After the user fills out the mandatory fields, a new account is created on ES4PS and propagated to the Samba AD/DC server, but this new account is disabled by default to restrict user creation to your organization only based on your organization's e-mail domain and verify the user's tie to the organization.
-3. To enable their account, the user needs to open their e-mail inbox, click on the activation link sent by the ES4PS platform, or input the activation code manually.
-    - When a user is verified (activated), a Celery task on ES4PS is triggered to enable its account on the Samba AD/DC server. After this step, any verified user will be able to log in on any computer within the domain.
+    - After the user fills out the mandatory fields, a new account is created on ES4All and propagated to the Samba AD/DC server, but this new account is disabled by default to restrict user creation to your organization only based on your organization's e-mail domain and verify the user's tie to the organization.
+3. To enable their account, the user needs to open their e-mail inbox, click on the activation link sent by the ES4All platform, or input the activation code manually.
+    - When a user is verified (activated), a Celery task on ES4All is triggered to enable its account on the Samba AD/DC server. After this step, any verified user will be able to log in on any computer within the domain.
 
-Now you'll see the user POV when creating its account in the ES4PS platform (and verifying it) to be able to login in Windows clients in your organization's network:
+Now you'll see the user POV when creating its account in the ES4All platform (and verifying it) to be able to login in Windows clients in your organization's network:
 
-![Create an account in the ES4PS platform](./docs/img/register-a-new-user.gif)
+![Create an account in the ES4All platform](./docs/img/register-a-new-user.gif)
 
-#### Adding a computer to the ES4PS Domain
+#### Adding a computer to the ES4All Domain
 
-To add a Windows machine to the ES4PS Domain, you should follow the steps below:
+To add a Windows machine to the ES4All Domain, you should follow the steps below:
 
-1. Ensure that the Windows machine is connected to the ES4PS network.
-2. Ensure that the Windows machine DNS is provided by the ES4PS DNS server.
+1. Ensure that the Windows machine is connected to the ES4All network.
+2. Ensure that the Windows machine DNS is provided by the ES4All DNS server.
     - You can do this by setting the DNS server in the network adapter settings.
     - This IP address is the **Samba Server IP Address** you filled in the setup wizard.
 3. Ensure that IPv6 network support is disabled.
-    - This is necessary because the ES4PS current release does not support IPv6, but future releases will.
+    - This is necessary because the ES4All current release does not support IPv6, but future releases will.
     - You can do this by unchecking the IPv6 checkbox in the network adapter settings.
 4. Now, open the Windows Explorer, right-click on "This PC" and select "Properties".
 5. Click on "Change settings" in the "Computer name, domain, and workgroup settings" section.
 6. Click on "Change" in the "Computer Name/Domain Changes" window.
 7. Select "Domain" and enter the domain name, which combines the **Samba Server Domain Name** and **Samba Realm Suffix** fields you filled out in the setup wizard.
-    - For example, if the **Samba Server Domain Name** is `dom` and the **Samba Realm Suffix** is `es4ps.local`, then the domain name would be `dom.es4ps.local`.
+    - For example, if the **Samba Server Domain Name** is `dom` and the **Samba Realm Suffix** is `es4all.local`, then the domain name would be `dom.es4all.local`.
 8. Click "OK" and enter **Administrator** as Username and **Samba Server Administrator Password** that you filled in the setup wizard as the Password.
 9. Joining the domain will take a few seconds to a few minutes. So, grab a cup of coffee and wait.
-    - Some tools, like FOG (Free Open-source Ghost), can automate this process so you can join the domain without any manual intervention. This automation is extremely useful in scenarios like computer labs, and a future ES4PS release will cover the integration between FOG and ES4PS.
+    - Some tools, like FOG (Free Open-source Ghost), can automate this process so you can join the domain without any manual intervention. This automation is extremely useful in scenarios like computer labs, and a future ES4All release will cover the integration between FOG and ES4All.
 10. After a few minutes, you'll be greeted with a welcome message into the domain, and then, after a few seconds, you'll be asked to restart the computer. Proceed with that.
 
 If you'd like to watch a video showing these steps, you can do it by clicking on the link bellow (CTRL + click to open in a new tab):
 
 [![join-domain](./docs/img/join-domain.png)](https://youtu.be/jz6siqBeISo?si=LDht0y476ldt1SR5)
 
-#### Performing a user login in a computer at the ES4PS Domain
+#### Performing a user login in a computer at the ES4All Domain
 
 1. After restarting the computer (and completing the domain join process), you should see the user login screen.
-    - Any user self-registered within the ES4PS platform can log in to the computer now.
+    - Any user self-registered within the ES4All platform can log in to the computer now.
 2. A self-registered user can log in by clicking on "Other user" and typing the username and password.
-    - For instance, the `es4psexampleuser` created in the **Registering a new user in the ES4PS platform** section can log in by typing `es4psexampleuser` in the username field and the password created in the registration process.
+    - For instance, the `es4allexampleuser` created in the **Registering a new user in the ES4All platform** section can log in by typing `es4allexampleuser` in the username field and the password created in the registration process.
         - If you followed the password example in the registration process, the password should be `P@ssw0rdAB`.
 3. After typing the username and password, click on the arrow or press Enter to log in.
 4. After a few seconds (or SEVERAL minutes) the user will be greeted with a welcome message and the desktop will be shown.
-    - With that step completed you can congratulate yourself for setting up the ES4PS platform that will help your organization to manage its users (and computers in future releases) in a clever way!
+    - With that step completed you can congratulate yourself for setting up the ES4All platform that will help your organization to manage its users (and computers in future releases) in a clever way!
 
-A video showing the user login process in a computer at the ES4PS Domain is available by clicking on the link bellow (CTRL + click to open in a new tab):
+A video showing the user login process in a computer at the ES4All Domain is available by clicking on the link bellow (CTRL + click to open in a new tab):
 
 [![user-login](./docs/img/user-login.png)](https://www.youtube.com/watch?v=qrGbnNZRY2M)
 
 #### Final considerations
 
-The ES4PS platform is a powerful tool that can help your organization to manage its users and computers in a clever way. This platform is under active development, and new features will be added in the future. 
+The ES4All platform is a powerful tool that can help your organization to manage its users and computers in a clever way. This platform is under active development, and new features will be added in the future. 
 
-As the ES4PS platform is in its first release, it is a minimal viable product (MVP) that focus on enabling user authentication (and login) in Windows Computers within your organization's network.
+As the ES4All platform is in its first release, it is a minimal viable product (MVP) that focus on enabling user authentication (and login) in Windows Computers within your organization's network.
 
 If you have any questions, suggestions, or want to contribute to the project, please contact us at [ascanio@cefetmg.br](mailto:ascanio@cefetmg.br).
 
-### ES4PS-setup-wizard Useful Information
+### ES4All-setup-wizard Useful Information
 
 This project is a pure react application that uses the `create-react-app`
-boilerplate to create a setup wizard for the ES4PS project. 
+boilerplate to create a setup wizard for the ES4All project. 
 
 React was chosen as the main technology for this wizard because this wizard will be only
 a single-page application with no need for routing, server-side rendering
